@@ -1,0 +1,22 @@
+<ion-view title="Food Shops">
+    <ion-content padding="true" class="has-header">    
+        <div class="food-tile" ng-repeat="shop in shops" ng-click="openShop(shop)">
+            <div class="image-area" style="background-image: url({{shop.banner}})">
+
+            </div>
+            <div class="row">
+                <div class="col col-67 name">
+                    {{shop.name}}
+                </div>
+                <div class="col time text-right">
+                    {{shop.deliveryTime}}
+                </div>           
+            </div>
+            <div class="row">
+                <div class="col col-100 speciality">
+                    {{shop.speciality}} $
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

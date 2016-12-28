@@ -1,0 +1,20 @@
+<ion-view title="Kilimanjaro" id="page5">
+  <ion-content padding="true" class="has-header">
+    <div id="kilimanjaro2-markdown1" style="text-align:center;" class="show-list-numbers-and-dots">
+      <p style="color:#000000;">See Africa around you</p>
+    </div>
+    <div id="kilimanjaro2-markdown2" style="text-align:center;" class="show-list-numbers-and-dots">
+      <p style="color:#000000;">Really its the highest mountain in the world, free standing that is from her peak you should see a lot of Africa, That's what you have here in your hand.</p>
+    </div>
+    <div id="kilimanjaro2-markdown3" style="text-align:center;" class="show-list-numbers-and-dots">
+      <p style="color:#000000;">Welcome to Kilimanjaro, sign in or check out the Africa around you by registering.</p>
+    </div>
+    <div id="kilimanjaro2-button-bar1" class="button-bar" ng-if="!currentUser">
+      <a ui-sref="tabsController.login" id="kilimanjaro2-button5" class="button button-balanced  button-block">Sign in </a>
+      <a ui-sref="tabsController.signup" id="kilimanjaro2-button7" class="button button-stable  button-block">Sign up</a>
+    </div>    
+      <div id="kilimanjaro2-button-bar1" class="button-bar" ng-if="currentUser">
+      <a ui-sref="tabsController.categories"  class="button button-balanced  button-block">Categories </a>      
+    </div> 
+  </ion-content>
+</ion-view>

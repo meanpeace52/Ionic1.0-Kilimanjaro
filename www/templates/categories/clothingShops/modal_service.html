@@ -1,0 +1,26 @@
+<ion-modal-view class="food-show service-modal">
+    <ion-content>
+        <div class="transparent-navigation-bar">
+            <div class="back" ng-click="closeModal();">
+                <i class="ion-android-arrow-back"></i>
+            </div>
+            <div class="share">
+                <i class="ion-android-share-alt"></i>
+            </div>
+        </div>
+        <div class="image-area" style="background-image: url({{service.imgUrl}})">
+
+        </div>
+        <div class="intro-box">
+            <h2>{{service.name}}</h2>  
+            <div class="descr text-center">
+                {{service.description}}
+            </div>
+        </div>
+        <div class="cart-cont">
+            <button class="button button-positive  button-block">
+                ADD 1 TO CART <span>${{service.price}}</span>
+            </button>
+        </div>
+    </ion-content>
+</ion-modal-view>

@@ -1,0 +1,67 @@
+<ion-view title="Components" id="page8">
+  <ion-content padding="true" class="has-header">
+    <h1 id="components-heading1" style="color:#000000;">Heading</h1>
+    <button id="components-button12" class="button button-positive  button-block">Tap me!</button>
+    <div id="components-button-bar2" class="button-bar">
+      <button id="components-button16" class="button button-positive  button-block">1</button>
+      <button id="components-button17" class="button button-positive  button-block">2</button>
+      <button id="components-button18" class="button button-positive  button-block">3</button>
+    </div>
+    <div id="components-container1" class="creator-container"></div>
+    <div class="list card" id="components-card21">
+      <ion-item class="item-avatar" id="components-list-item3">
+        <h2>Item</h2>
+      </ion-item>
+      <div style="margin: 0px; line-height: 250px; text-align: center; background-color: rgb(232, 235, 239);">
+        <i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>
+      </div>
+      <div class="item item-body" id="components-list-item-container2">
+        <div id="components-markdown5" class="show-list-numbers-and-dots">
+          <p style="margin-top:0px;color:#000000;">Some friendly
+            <strong>markdown</strong>
+          </p>
+        </div>
+      </div>
+      <ion-item class="item-icon-left assertive" id="components-list-item4">
+        <i class="icon ion-music-note"></i>Play Song</ion-item>
+      <div class="spacer" style="height: 100px;"></div>
+    </div>
+    <div ng-init="videourl=&quot;https://www.youtube.com/embed/lTLTs2ZA2JQ?rel=0&amp;showinfo=0&quot;" style="position:relative;overflow:hidden;padding-bottom:56.25%;height:0;" id="components-video1">
+      <iframe src="{{videourl}}" frameborder="0" allowfullscreen="" width="560" height="315" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+    </div>
+    <form id="components-form3" class="list">
+      <form id="components-form4" class="list">
+        <ion-toggle toggle-class="toggle-positive" id="components-toggle2">Toggle</ion-toggle>
+        <ion-radio id="components-radio2">Radio</ion-radio>
+        <label class="item item-input" id="components-input7">
+          <span class="input-label">Input</span>
+          <input type="text" placeholder="">
+        </label>
+        <label class="item item-select" id="components-select1">
+          <span class="input-label">Select</span>
+          <select>
+            <option>test</option>
+            <option>test</option>
+            <option>test</option>
+          </select>
+        </label>
+        <ion-item class="item-icon-left" id="components-list-item12">
+          <i class="icon ion-ionic"></i>Item</ion-item>
+        <ion-list id="components-list3">
+          <ion-item id="components-list-item9">Item 1</ion-item>
+          <ion-item id="components-list-item10">Item 2</ion-item>
+          <ion-item id="components-list-item11">Item 3</ion-item>
+        </ion-list>
+      </form>
+      <ion-item class="item-avatar" id="components-list-item5">
+        <h2>Item</h2>
+      </ion-item>
+      <ion-toggle toggle-class="toggle-positive" id="components-toggle3">Toggle</ion-toggle>
+      <label class="item item-input" id="components-search1">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="search" placeholder="">
+      </label>
+      <ion-checkbox id="components-checkbox1">Checkbox</ion-checkbox>
+    </form>
+  </ion-content>
+</ion-view>
