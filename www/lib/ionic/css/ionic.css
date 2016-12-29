@@ -9608,7 +9608,7 @@ a.button {
 
 .platform-ios.platform-cordova:not(.fullscreen) .has-header,
 .platform-ios.platform-cordova:not(.fullscreen) .bar-subheader {
-  top: 64px; }
+  top: 74px; }
 
 .platform-ios.platform-cordova:not(.fullscreen) .has-subheader {
   top: 108px; }
