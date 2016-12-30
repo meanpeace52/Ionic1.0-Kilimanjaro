@@ -32,8 +32,7 @@ angular.module('app.directives', [])
                         scope.$on('$destroy', function() {
                             b64Data = null;
                         })
-                        function nativeShare(options) {
-                            console.log(options)
+                        function nativeShare(options) {                            
                             if (window.cordova && window.plugins && window.plugins.socialsharing) {
                                 window.plugins.socialsharing.shareWithOptions(options);
                             }
