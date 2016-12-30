@@ -9600,15 +9600,18 @@ a.button {
   .platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader).item-input-inset .item-input-wrapper {
     margin-top: 19px !important; }
   .platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) > * {
-    margin-top: 20px; }
-
+    margin-top: 20px; 
+  }
+.platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) > .nav-bar-block{
+  margin-top:0px;
+}
 .platform-ios.platform-cordova:not(.fullscreen) .tabs-top > .tabs,
 .platform-ios.platform-cordova:not(.fullscreen) .tabs.tabs-top {
   top: 64px; }
 
 .platform-ios.platform-cordova:not(.fullscreen) .has-header,
 .platform-ios.platform-cordova:not(.fullscreen) .bar-subheader {
-  top: 74px; }
+  top: 64px; }
 
 .platform-ios.platform-cordova:not(.fullscreen) .has-subheader {
   top: 108px; }
