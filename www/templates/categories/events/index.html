@@ -10,12 +10,9 @@
                 </div>                         
             </div>
             <div class="row">
-                <div class="col col-50 speciality">
-                    {{event.startTime|date : 'short'}}
-                </div>
-                 <div class="col col-50 speciality">
-                    {{event.endTime|date : 'short'}}
-                </div>
+                <div class="col col-100 speciality">
+                    {{event.startTime|date : 'M/dd/yy h:mm a EEEE'}}
+                </div>              
             </div>
         </div>
     </ion-content>

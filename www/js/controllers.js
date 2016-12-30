@@ -84,7 +84,8 @@ angular.module('app.controllers', [])
                             $ionicLoading.show({
                                 template: 'Account created successfully!',
                                 duration: 3000
-                            })
+                            });
+                            $state.go('tabsController.landing');
                         }).catch(function(error) {
                             $ionicLoading.show({
                                 template: error.message,
