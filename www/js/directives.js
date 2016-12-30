@@ -33,6 +33,7 @@ angular.module('app.directives', [])
                             b64Data = null;
                         })
                         function nativeShare(options) {
+                            console.log(options)
                             if (window.cordova && window.plugins && window.plugins.socialsharing) {
                                 window.plugins.socialsharing.shareWithOptions(options);
                             }
@@ -64,7 +65,7 @@ angular.module('app.directives', [])
                                     var x = c.getContext('2d');
                                     x.drawImage(img, 0, 0);
                                     var imgBase64 = c.toDataURL();
-                                    options.files = imgBase64;
+                                    options.files = [imgBase64];
                                     b64Data = imgBase64;
                                     nativeShare(options);
                                 }
