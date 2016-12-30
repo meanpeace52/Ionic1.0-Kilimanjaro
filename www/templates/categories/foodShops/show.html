@@ -14,14 +14,14 @@
         <div class="intro-box">
             <h2>{{shop.name}}</h2>
             <div class="speciality text-center">{{shop.speciality}} - $</div>
-            <div class="time text-center">{{shop.deliveryTime}}</div>
+            <div class="time text-center">{{shop.address}}</div>
         </div>
         <div class="text-center working-time">
             {{shop.workingTime}}
         </div>
         <div class="items">
             <div class="popular text-center">
-                Most Popular
+                Menu
             </div>
             <div class="spacer"></div>
             <div class="food-item" ng-repeat="item in shop.items" ng-click="showService(item)">                
