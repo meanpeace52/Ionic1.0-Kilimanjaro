@@ -15,7 +15,7 @@
                 Location: {{event.address}}
             </div>
             <div class="block">
-                Time: {{event.startTime|date : 'short'}} - {{event.endTime|date : 'short'}}
+                Time: {{event.startTime|date : 'M/dd/yy h:mm a EEEE'}} - {{event.endTime|date : 'M/dd/yy h:mm a EEEE'}}
             </div>
             <div class="block contact">
                 Email: <a href="mailto:{{event.email}}">{{event.email}}</a>
