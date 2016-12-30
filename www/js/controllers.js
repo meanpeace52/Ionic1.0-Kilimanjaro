@@ -114,6 +114,8 @@ angular.module('app.controllers', [])
                         $state.go("tabsController.foodCategory")
                     }else if (category === 'Clothing Shops') {
                         $state.go("tabsController.clothingCategory")
+                    }else if (category === 'Events') {
+                        $state.go("tabsController.eventCategory")
                     }
                 }
 
@@ -138,7 +140,40 @@ angular.module('app.controllers', [])
                 }
             }])
         
+        .controller('EventsCtrl', ["$scope", '$firebaseArray', '$state', 'sharedUtils',
+            function($scope, $firebaseArray, $state, sharedUtils) {
+                var ref = firebase.database().ref('events');
+                $scope.events = $firebaseArray(ref);
+                sharedUtils.showLoading();
+                $scope.events.$loaded()
+                        .then(function() {
+                            sharedUtils.hideLoading();
+                        })
+                        .catch(function(err) {
+                            sharedUtils.hideLoading();
+                        });
+
+
+                $scope.openEvent = function(shop) {
+                    $state.go('tabsController.event', {id: shop.$id});
+                }
+            }])
         
+        .controller('EventShowCtrl', ["$scope", '$firebaseObject', '$stateParams', 'sharedUtils',
+            function($scope, $firebaseObject, $stateParams, sharedUtils) {                
+                sharedUtils.showLoading();
+                var ref = firebase.database().ref('events').child($stateParams.id);                
+                var event = $firebaseObject(ref)
+                event.$loaded()
+                        .then(function() {                            
+                            $scope.event = event;
+                            sharedUtils.hideLoading();
+                        })
+                        .catch(function(err) {
+                            console.error(err);
+                            sharedUtils.hideLoading();
+                        });
+            }])
         .controller('clothingShopsCtrl', ["$scope", '$firebaseArray', '$state', 'sharedUtils',
             function($scope, $firebaseArray, $state, sharedUtils) {
                 var ref = firebase.database().ref('clothingShops');
@@ -191,6 +226,8 @@ angular.module('app.controllers', [])
                     });                    
                 }
             }])
+        
+        
 
         .controller('foodShopShowCtrl', ["$scope", '$firebaseObject', '$state', '$stateParams', 'sharedUtils', '$ionicModal',
             function($scope, $firebaseObject, $state, $stateParams, sharedUtils, $ionicModal) {
