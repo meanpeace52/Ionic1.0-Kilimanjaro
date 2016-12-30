@@ -1,0 +1,29 @@
+<ion-view> 
+    <ion-nav-title>{{event.title}}</ion-nav-title>
+    <ion-content class="food-show event">          
+        <div class="image-area" style="background-image: url({{event.banner}})">
+
+        </div>
+        <div class="blocks">
+            <div class="block">
+                Title: {{event.title}}
+            </div>
+            <div class="block">
+                Description: {{event.description}}
+            </div>
+            <div class="block">
+                Location: {{event.address}}
+            </div>
+            <div class="block">
+                Time: {{event.startTime|date : 'short'}} - {{event.endTime|date : 'short'}}
+            </div>
+            <div class="block contact">
+                Email: <a href="mailto:{{event.email}}">{{event.email}}</a>
+            </div>
+            <div class="block contact">
+                Phone: {{event.contactName}} <a href="tel:{{event.phoneNumber}}">{{event.phoneNumber}}</a>
+            </div>
+        </div>
+        <a href="javascript:void(0);" class="button button-calm  button-block">Going?</a>             
+    </ion-content>
+</ion-view>

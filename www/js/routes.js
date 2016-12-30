@@ -143,6 +143,36 @@ angular.module('app.routes', [])
                         }
 
                     })
+                    
+                    .state('tabsController.eventCategory', {
+                        url: '/category/events',
+                        views: {
+                            'tab1': {
+                                templateUrl: 'templates/categories/events/index.html',
+                                controller: 'EventsCtrl'
+                            }
+                        }, resolve: {
+                            "currentAuth": ["Auth", function(Auth) {
+                                    return Auth.$requireSignIn();
+                                }]
+                        }
+
+                    })
+                    
+                    .state('tabsController.event', {
+                        url: '/category/event/:id',
+                        views: {
+                            'tab1': {
+                                templateUrl: 'templates/categories/events/show.html',
+                                controller: 'EventShowCtrl'
+                            }
+                        }, resolve: {
+                            "currentAuth": ["Auth", function(Auth) {
+                                    return Auth.$requireSignIn();
+                                }]
+                        }
+
+                    })
                     .state('tabsController.kilimanjaro4', {
                         url: '/food',
                         views: {

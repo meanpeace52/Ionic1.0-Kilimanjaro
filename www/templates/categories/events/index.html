@@ -1,0 +1,22 @@
+<ion-view title="Events">
+    <ion-content padding="true" class="has-header">    
+        <div class="food-tile" ng-repeat="event in events" ng-click="openEvent(event)">
+            <div class="image-area" style="background-image: url({{event.banner}})">
+
+            </div>
+            <div class="row">
+                <div class="col col-100 name">
+                    {{event.title}}
+                </div>                         
+            </div>
+            <div class="row">
+                <div class="col col-50 speciality">
+                    {{event.startTime|date : 'short'}}
+                </div>
+                 <div class="col col-50 speciality">
+                    {{event.endTime|date : 'short'}}
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

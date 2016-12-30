@@ -61,6 +61,15 @@ ion-item.small-item{
 .food-show{
     background: #E8E8E8;
 }
+.food-show.event{
+    background: #fff;
+}
+.food-show.event .blocks .block {
+    font-weight: bold;
+    border-bottom: 1px solid #CECECE;
+    padding: 8px 4px;
+    font-size: 14px;
+}
 .food-show .image-area {
     height: 220px;
     background-size: cover;
