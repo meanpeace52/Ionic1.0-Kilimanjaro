@@ -9,6 +9,12 @@
     left: 0;
     right: 0;
 }
+.fullTopContent{
+    top:0!important;
+}
+.no-pointer-events{
+    pointer-events: none;
+}
 .platform-ios.platform-cordova:not(.fullscreen) .transparent-navigation-bar{
     top:22px;
 }
