@@ -4,7 +4,7 @@
             <div class="back" ng-click="closeModal();">
                 <i class="ion-android-arrow-back"></i>
             </div>
-            <div class="share">
+            <div class="share" native-share subject="{{service.name}}" message="Sharing {{service.name}} in {{shop.name}} from Kilimanjaro" files="{{service.imgUrl}}">
                 <i class="ion-android-share-alt"></i>
             </div>
         </div>
