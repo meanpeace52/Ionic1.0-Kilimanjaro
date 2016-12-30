@@ -2,13 +2,6 @@
 .fix-left-10{
     margin-left:-10px
 }
-.bar.bar-header{
-    transition: all ease-in-out 250ms;
-}
-.bar.bar-header.hide {
-    display: block;
-    transform: translate3d(0px, -100%, 0px);
-}
 .transparent-navigation-bar{
     position: absolute;
     top: 0;
