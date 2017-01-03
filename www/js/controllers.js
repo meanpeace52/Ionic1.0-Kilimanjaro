@@ -1,7 +1,7 @@
 angular.module('app.controllers', [])
 
-        .controller('kilimanjaroCtrl', ['$rootScope', 'Auth', '$scope', '$state',
-            function($rootScope, Auth, $scope, $state) {
+        .controller('kilimanjaroCtrl', ['$rootScope', 'Auth', '$scope', '$state','$rootScope',
+            function($rootScope, Auth, $scope, $state, $rootScope) {
                 Auth.$onAuthStateChanged(function(user) {
                     if (user) {
                         $rootScope.currentUser = user;
@@ -11,6 +11,7 @@ angular.module('app.controllers', [])
                 $scope.logOut = function() {
                     Auth.$signOut().then(function() {
                         delete $rootScope.currentUser;
+                        $rootScope.cart = {shops: [], badge: 0};
                         $state.go('tabsController.landing');
                     }, function(error) {
 

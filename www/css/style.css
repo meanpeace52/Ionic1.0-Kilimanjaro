@@ -28,11 +28,11 @@
 }
 @font-face {
     font-family: AdventProMedium;
-    src: url(/fonts/AdventPro/AdventPro-Medium.ttf);
+    src: url('/fonts/AdventPro/AdventPro-Medium.ttf') format('truetype');
 }
 @font-face {
     font-family: AdventProSemiBold;
-    src: url(/fonts/AdventPro/AdventPro-SemiBold.ttf);
+    src: url('/fonts/AdventPro/AdventPro-SemiBold.ttf') format('truetype');
 }
 .adventProMedium{
     font-family: AdventProMedium;
