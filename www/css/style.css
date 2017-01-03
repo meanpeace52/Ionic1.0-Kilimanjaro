@@ -4,10 +4,20 @@
     margin-bottom: 4px;
 }
 .cart-index-page .total {
-    font-size: 23px;
-    background: #F1F1F1;
+    font-size: 20px;
+    background: #EFEFEF;
     padding: 12px 3px;
     margin-top: 12px;
+    letter-spacing: 1px;
+    color: rgba(29, 29, 29, 0.81);
+}
+.cart-index-page .item .price-bx{
+    margin-top:12px;
+    color:#828282;
+    letter-spacing: 1px;
+}
+.cart-index-page .item .price-bx b{
+    color:#2F2B2B;
 }
 .cart-index-page .item .shopName {
     font-size: 13px;
@@ -22,6 +32,9 @@
 }
 .cart-index-page .item .quantity{
     font-size: 18px;
+}
+.cart-index-page .item .quantity.qt-txt{
+    margin-top:12px;
 }
 .cart-index-page .item .quantity.col-25{
     text-align: right;
