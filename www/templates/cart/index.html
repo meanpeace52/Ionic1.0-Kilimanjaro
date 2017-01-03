@@ -1,0 +1,62 @@
+<ion-view title="Cart">
+    <!--     <ion-nav-buttons side="right">
+             <i class='ion-ios-cart'></i>
+        </ion-nav-buttons>-->
+    <ion-content padding="true" class="has-header">    
+        <div class='cart-index-page'>
+            <div ng-repeat='shop in cart.shops'>
+                <div ng-repeat='item in shop.cartItems' class='item adventProsemiBold item-text-wrap'>                    
+                    <div class='itemName '>
+                        {{item.name}}
+                    </div>
+                    <div class='shopName'>
+                        {{shop.name}}
+                    </div>
+                    <div class='itemImage' ng-if='item.imgUrl'>
+                        <img ng-src='{{item.imgUrl}}'>
+                    </div>
+                    <div class='row'>
+                        <div class='quantity col-50'>
+                            Quantity: {{item.quantity}}
+                        </div>
+                        <div class='quantity col-25'>
+                            <a href='javascript:void(0);' ng-click='handleQuantity(item, shop, true)'>
+                                <i class='ion-android-add-circle'></i>
+                            </a>
+                        </div>
+                        <div class='quantity col-25'>
+                            <a href='javascript:void(0);' ng-click='handleQuantity(item, shop, false)'>
+                                <i class='ion-android-remove-circle'></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class='row adventProMedium'>
+                        <div class='price col-50'>   
+                            Price: ${{item.price}}
+                        </div>
+                        <div class='price col-50 text-right'>
+                            Total: ${{(item.price * item.quantity)| number:2}}
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+            <div class='total row adventProsemiBold' ng-if='cart.badge'>
+                <div class='col-50'>
+                    TOTAL
+                </div>
+                <div class='col-50 text-right'>
+                    ${{getCartTotal()| number:2}}
+                </div>
+            </div>
+            
+            <button ng-show='cart.badge'  class="button button-calm button-block">CHECKOUT</button>
+            <div class='no-items' ng-if='!cart.badge'>
+                <div class="card">
+                    <div class="item item-text-wrap text-center">
+                        Your cart is empty
+                    </div>
+                </div>
+            </div>
+        </div>       
+    </ion-content>
+</ion-view>

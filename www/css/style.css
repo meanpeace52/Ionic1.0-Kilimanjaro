@@ -1,4 +1,48 @@
 /* Globals */
+.cart-index-page .item .itemName{
+    font-size: 23px;
+    margin-bottom: 4px;
+}
+.cart-index-page .total {
+    font-size: 23px;
+    background: #F1F1F1;
+    padding: 12px 3px;
+    margin-top: 12px;
+}
+.cart-index-page .item .shopName {
+    font-size: 13px;
+    color: #AFAFAF;
+}
+.cart-index-page .item .price{
+    margin-top:12px;
+}
+.cart-index-page .item .itemImage img{
+    max-width: 100%;
+    max-height: 200px;
+}
+.cart-index-page .item .quantity{
+    font-size: 18px;
+}
+.cart-index-page .item .quantity.col-25{
+    text-align: right;
+}
+@font-face {
+    font-family: AdventProMedium;
+    src: url(/fonts/AdventPro/AdventPro-Medium.ttf);
+}
+@font-face {
+    font-family: AdventProSemiBold;
+    src: url(/fonts/AdventPro/AdventPro-SemiBold.ttf);
+}
+.adventProMedium{
+    font-family: AdventProMedium;
+}
+.adventProsemiBold, .bar.bar-light .title{
+    font-family: AdventProSemiBold;
+}
+.landing-description{
+    font-size: 18px;
+}
 .fix-left-10{
     margin-left:-10px
 }
@@ -11,6 +55,9 @@
 }
 .fullTopContent{
     top:0!important;
+}
+.platform-android .fullTopContent{
+    top:49px!important;
 }
 .no-pointer-events{
     pointer-events: none;

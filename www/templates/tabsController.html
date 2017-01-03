@@ -1,13 +1,16 @@
 <ion-view id="home">
-  <ion-tabs class="tabs-light tabs-icon-top" id="tabsController-tabs1">
-    <ion-tab title="Home" icon="ion-home" href="#/home/landing" id="tabsController-tab1">
-      <ion-nav-view name="tab1"></ion-nav-view>
-    </ion-tab>
-    <ion-tab title="Messages" icon="ion-android-drafts" id="tabsController-tab2" href="#/home/messages">
-      <ion-nav-view name="tab2"></ion-nav-view>
-    </ion-tab>
-    <ion-tab title="Billing" icon="ion-android-star" id="tabsController-tab3">
-      <ion-nav-view name="tab3"></ion-nav-view>
-    </ion-tab>
-  </ion-tabs>
+    <ion-tabs class="tabs-light tabs-icon-top" id="tabsController-tabs1">
+        <ion-tab title="Home" icon="ion-home" href="#/home/landing" id="tabsController-tab1">
+            <ion-nav-view name="tab1"></ion-nav-view>
+        </ion-tab>
+        <ion-tab title="Messages" icon="ion-android-drafts" id="tabsController-tab2" href="javacript:void(0);">
+            <ion-nav-view name="tab2"></ion-nav-view>
+        </ion-tab>
+        <ion-tab title="Billing" icon="ion-android-star" id="tabsController-tab3">
+            <ion-nav-view name="tab3"></ion-nav-view>
+        </ion-tab>
+        <ion-tab title="Cart" icon="ion-ios-cart" href="#/home/cart/index" id="tabsController-tab4"  badge="cart.badge" badge-style="badge-calm" >            
+            <ion-nav-view name="cartTab"></ion-nav-view>
+        </ion-tab>
+    </ion-tabs>
 </ion-view>

@@ -15,7 +15,17 @@ angular.module('app.routes', [])
                         templateUrl: 'templates/tabsController.html',
                         abstract: true
                     })
-
+                    
+                    .state('tabsController.cartIndex', {
+                        url: '/cart/index',
+                        views: {
+                            'cartTab': {
+                                templateUrl: 'templates/cart/index.html',
+                                controller: 'CartCtrl'
+                            }
+                        }
+                    })
+                    
                     .state('tabsController.landing', {
                         url: '/landing',
                         views: {

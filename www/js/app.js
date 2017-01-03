@@ -21,7 +21,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
             $ionicConfigProvider.scrolling.jsScrolling(false);
         })
 
-        .run(function($ionicPlatform) {
+        .run(function($ionicPlatform, $rootScope) {
+            $rootScope.cart = {shops: [], badge: 0};
             $ionicPlatform.ready(function() {
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                 // for form inputs)
@@ -44,8 +45,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
 
         .run(["$rootScope", "$state", function($rootScope, $state) {
                 $rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {
-                    if (error === "AUTH_REQUIRED") {
-                        console.log(error)
+                    if (error === "AUTH_REQUIRED") {                        
                         $state.go("tabsController.landing");
                     }
                 });

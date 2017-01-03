@@ -9,7 +9,7 @@ angular.module('app.directives', [])
                         })
                     }
                 }
-            }])
+            }])        
         .directive('hideTabs', function($rootScope, $ionicTabsDelegate) {
             return {
                 restrict: 'A',
