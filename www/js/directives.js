@@ -34,10 +34,7 @@ angular.module('app.directives', [])
                                 filterProperties: [attr.filter],
                                 items: scope.data.items,
                                 update: function(filteredItems) {
-                                    $timeout(function() {
-                                        scope.data.items = filteredItems;
-                                        scope.$apply(scope.data);
-                                    });
+                                    scope.data.items = filteredItems;
                                 }
                             });
                         });
