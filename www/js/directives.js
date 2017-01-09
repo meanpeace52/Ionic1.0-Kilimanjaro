@@ -9,7 +9,7 @@ angular.module('app.directives', [])
                         })
                     }
                 }
-            }])        
+            }])
         .directive('hideTabs', function($rootScope, $ionicTabsDelegate) {
             return {
                 restrict: 'A',
@@ -24,6 +24,27 @@ angular.module('app.directives', [])
             };
         })
 
+        .directive('applySearchFilter', ['$ionicFilterBar', '$timeout', function($ionicFilterBar, $timeout) {
+                return{
+                    restrict: 'A',
+                    scope: {data: '='},
+                    link: function(scope, elem, attr) {
+                        elem.bind('click', function() {
+                            $ionicFilterBar.show({
+                                filterProperties: [attr.filter],
+                                items: scope.data.items,
+                                update: function(filteredItems) {
+                                    $timeout(function() {
+                                        scope.data.items = filteredItems;
+                                        scope.$apply(scope.data);
+                                    });
+                                }
+                            });
+                        });
+                    }
+                }
+            }])
+
         .directive('nativeShare', ['sharedUtils', function(sharedUtils) {
                 return {
                     restrict: 'A',
@@ -32,7 +53,8 @@ angular.module('app.directives', [])
                         scope.$on('$destroy', function() {
                             b64Data = null;
                         })
-                        function nativeShare(options) {                            
+                        function nativeShare(options) {
+                            console.log(options)
                             if (window.cordova && window.plugins && window.plugins.socialsharing) {
                                 window.plugins.socialsharing.shareWithOptions(options);
                             }

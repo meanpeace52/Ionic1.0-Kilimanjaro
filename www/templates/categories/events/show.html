@@ -1,4 +1,9 @@
 <ion-view> 
+     <ion-nav-buttons side="right">
+          <button class="button back-button buttons  button-clear header-item" native-share subject="{{event.title}}" message="Sharing {{event.title}} from Kilimanjaro" files="{{event.banner}}">
+             <i class="ion-android-share-alt nav-icon-for-share"></i>             
+         </button>
+    </ion-nav-buttons>    
     <ion-nav-title>{{event.title}}</ion-nav-title>
     <ion-content class="food-show event">          
         <div class="image-area" style="background-image: url({{event.banner}})">

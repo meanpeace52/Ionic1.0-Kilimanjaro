@@ -3,6 +3,13 @@
     font-size: 23px;
     margin-bottom: 4px;
 }
+.nav-icon-for-share {
+    font-size: 25px;
+}
+.cart-index-page .row{
+    padding-left:0px;
+    padding-right: 0px;
+}
 .cart-index-page .total {
     font-size: 20px;
     background: #EFEFEF;

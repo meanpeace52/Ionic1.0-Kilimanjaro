@@ -183,6 +183,36 @@ angular.module('app.routes', [])
                         }
 
                     })
+                    
+                    .state('tabsController.generalItem', {
+                        url: '/category/general/:id',
+                        views: {
+                            'tab1': {
+                                templateUrl: 'templates/categories/general/show.html',
+                                controller: 'GeneralCatShowCtrl'
+                            }
+                        }, resolve: {
+                            "currentAuth": ["Auth", function(Auth) {
+                                    return Auth.$requireSignIn();
+                                }]
+                        }
+
+                    })
+                    
+                    .state('tabsController.generalCategory', {
+                        url: '/category/general',
+                        views: {
+                            'tab1': {
+                                templateUrl: 'templates/categories/general/index.html',
+                                controller: 'GeneralCatCtrl'
+                            }
+                        }, resolve: {
+                            "currentAuth": ["Auth", function(Auth) {
+                                    return Auth.$requireSignIn();
+                                }]
+                        }
+
+                    })
                     .state('tabsController.kilimanjaro4', {
                         url: '/food',
                         views: {

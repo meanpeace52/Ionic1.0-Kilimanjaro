@@ -1,6 +1,10 @@
 <ion-view title="Clothing Shops">
+    <ion-nav-buttons side="secondary">
+        <button class="button button-icon icon ion-ios-search-strong" apply-search-filter filter="name" data="data">
+        </button>
+    </ion-nav-buttons>
     <ion-content padding="true" class="has-header">    
-        <div class="food-tile" ng-repeat="shop in shops" ng-click="openShop(shop)">
+        <div class="food-tile" ng-repeat="shop in data.items" ng-click="openShop(shop)">
             <div class="image-area" style="background-image: url({{shop.banner}})">
 
             </div>

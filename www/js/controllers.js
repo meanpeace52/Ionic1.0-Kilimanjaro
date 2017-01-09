@@ -1,6 +1,6 @@
 angular.module('app.controllers', [])
 
-        .controller('kilimanjaroCtrl', ['$rootScope', 'Auth', '$scope', '$state','$rootScope',
+        .controller('kilimanjaroCtrl', ['$rootScope', 'Auth', '$scope', '$state', '$rootScope',
             function($rootScope, Auth, $scope, $state, $rootScope) {
                 Auth.$onAuthStateChanged(function(user) {
                     if (user) {
@@ -19,34 +19,34 @@ angular.module('app.controllers', [])
                 }
 
             }])
-        
-        .controller('CartCtrl', ['$scope','$rootScope', function($scope, $rootScope){
-            $scope.handleQuantity = function(item, shop, increment){
-                if(increment){
-                    item.quantity+=1;
-                     $rootScope.cart.badge+=1;
-                }else{
-                    item.quantity-=1;
-                    $rootScope.cart.badge-=1;
-                }
-                if(item.quantity==0){
-                    delete shop.cartItems[item.$id];
-                }
-            }
-            $scope.getCartTotal = function(){
-                var total = 0;
-                angular.forEach($rootScope.cart.shops, function(shop){
-                    if(shop.cartItems && Object.keys(shop.cartItems).length > 0){
-                        var keys = Object.keys(shop.cartItems);
-                        angular.forEach(keys, function(key){
-                           var item = shop.cartItems[key];
-                           total = total+(item.price*item.quantity);
-                        });
+
+        .controller('CartCtrl', ['$scope', '$rootScope', function($scope, $rootScope) {
+                $scope.handleQuantity = function(item, shop, increment) {
+                    if (increment) {
+                        item.quantity += 1;
+                        $rootScope.cart.badge += 1;
+                    } else {
+                        item.quantity -= 1;
+                        $rootScope.cart.badge -= 1;
                     }
-                });
-                return total;
-            }
-        }])
+                    if (item.quantity == 0) {
+                        delete shop.cartItems[item.$id];
+                    }
+                }
+                $scope.getCartTotal = function() {
+                    var total = 0;
+                    angular.forEach($rootScope.cart.shops, function(shop) {
+                        if (shop.cartItems && Object.keys(shop.cartItems).length > 0) {
+                            var keys = Object.keys(shop.cartItems);
+                            angular.forEach(keys, function(key) {
+                                var item = shop.cartItems[key];
+                                total = total + (item.price * item.quantity);
+                            });
+                        }
+                    });
+                    return total;
+                }
+            }])
 
         .controller('kilimanjaro2Ctrl', ['$scope', '$stateParams',
             function($scope, $stateParams) {
@@ -140,23 +140,19 @@ angular.module('app.controllers', [])
             function($scope, $state) {
 
                 $scope.openSpecificCategory = function(category) {
-                    if (category === 'Food Shops') {
-                        $state.go("tabsController.foodCategory")
-                    } else if (category === 'Clothing Shops') {
-                        $state.go("tabsController.clothingCategory")
-                    } else if (category === 'Events') {
-                        $state.go("tabsController.eventCategory")
-                    }
+                    $state.go("tabsController." + category);
                 }
 
             }])
 
-        .controller('foodShopCtrl', ["$scope", '$firebaseArray', '$state', 'sharedUtils', '$rootScope',
-            function($scope, $firebaseArray, $state, sharedUtils, $rootScope) {
+        .controller('foodShopCtrl', ["$scope", '$firebaseArray', '$state', 'sharedUtils',
+            function($scope, $firebaseArray, $state, sharedUtils) {
+                $scope.data = {};
                 var ref = firebase.database().ref('foodShops');
-                $scope.shops = $firebaseArray(ref);
+                $scope.data.items = [];
+                $scope.data.items = $firebaseArray(ref);
                 sharedUtils.showLoading();
-                $scope.shops.$loaded()
+                $scope.data.items.$loaded()
                         .then(function() {
                             sharedUtils.hideLoading();
                         })
@@ -172,10 +168,11 @@ angular.module('app.controllers', [])
 
         .controller('EventsCtrl', ["$scope", '$firebaseArray', '$state', 'sharedUtils',
             function($scope, $firebaseArray, $state, sharedUtils) {
+                $scope.data = {};
                 var ref = firebase.database().ref('events');
-                $scope.events = $firebaseArray(ref);
+                $scope.data.items = $firebaseArray(ref);
                 sharedUtils.showLoading();
-                $scope.events.$loaded()
+                $scope.data.items.$loaded()
                         .then(function() {
                             sharedUtils.hideLoading();
                         })
@@ -184,9 +181,44 @@ angular.module('app.controllers', [])
                         });
 
 
-                $scope.openEvent = function(shop) {
-                    $state.go('tabsController.event', {id: shop.$id});
+                $scope.openEvent = function(event) {
+                    $state.go('tabsController.event', {id: event.$id});
                 }
+            }])
+
+        .controller('GeneralCatCtrl', ["$scope", '$firebaseArray', '$state', 'sharedUtils', '$ionicFilterBar',
+            function($scope, $firebaseArray, $state, sharedUtils, $ionicFilterBar) {
+                $scope.data = {};
+                var ref = firebase.database().ref('general');
+                $scope.data.items = $firebaseArray(ref);
+                sharedUtils.showLoading();
+                $scope.data.items.$loaded()
+                        .then(function() {
+                            sharedUtils.hideLoading();
+                        })
+                        .catch(function(err) {
+                            sharedUtils.hideLoading();
+                        });
+
+
+                $scope.openEvent = function(item) {
+                    $state.go('tabsController.generalItem', {id: item.$id});
+                }
+            }])
+
+        .controller('GeneralCatShowCtrl', ["$scope", '$firebaseObject', '$stateParams', 'sharedUtils',
+            function($scope, $firebaseObject, $stateParams, sharedUtils) {
+                sharedUtils.showLoading();
+                var ref = firebase.database().ref('general').child($stateParams.id);
+                var generalItem = $firebaseObject(ref)
+                generalItem.$loaded()
+                        .then(function() {
+                            $scope.generalItem = generalItem;
+                            sharedUtils.hideLoading();
+                        })
+                        .catch(function(err) {
+                            sharedUtils.hideLoading();
+                        });
             }])
 
         .controller('EventShowCtrl', ["$scope", '$firebaseObject', '$stateParams', 'sharedUtils',
@@ -200,16 +232,16 @@ angular.module('app.controllers', [])
                             sharedUtils.hideLoading();
                         })
                         .catch(function(err) {
-                            console.error(err);
                             sharedUtils.hideLoading();
                         });
             }])
         .controller('clothingShopsCtrl', ["$scope", '$firebaseArray', '$state', 'sharedUtils',
             function($scope, $firebaseArray, $state, sharedUtils) {
+                $scope.data = {};
                 var ref = firebase.database().ref('clothingShops');
-                $scope.shops = $firebaseArray(ref);
+                $scope.data.items = $firebaseArray(ref);
                 sharedUtils.showLoading();
-                $scope.shops.$loaded()
+                $scope.data.items.$loaded()
                         .then(function() {
                             sharedUtils.hideLoading();
                         })
@@ -223,8 +255,8 @@ angular.module('app.controllers', [])
                 }
             }])
 
-        .controller('clothingShopShowCtrl', ["$scope", '$firebaseObject', '$stateParams', 'sharedUtils', '$ionicModal','$filter','$rootScope', '$ionicLoading',
-            function($scope, $firebaseObject, $stateParams, sharedUtils, $ionicModal, $filter, $rootScope, $ionicLoading) {                
+        .controller('clothingShopShowCtrl', ["$scope", '$firebaseObject', '$stateParams', 'sharedUtils', '$ionicModal', '$filter', '$rootScope', '$ionicLoading',
+            function($scope, $firebaseObject, $stateParams, sharedUtils, $ionicModal, $filter, $rootScope, $ionicLoading) {
                 sharedUtils.showLoading();
                 var ref = firebase.database().ref('clothingShops').child($stateParams.id);
                 var shop = $firebaseObject(ref)
@@ -234,7 +266,6 @@ angular.module('app.controllers', [])
                             sharedUtils.hideLoading();
                         })
                         .catch(function(err) {
-                            console.error(err);
                             sharedUtils.hideLoading();
                         });
 
@@ -255,7 +286,7 @@ angular.module('app.controllers', [])
                         $scope.modal.remove();
                     });
                 }
-                
+
                 $scope.addItemToCart = function(item) {
                     var shopPresent = $filter('filter')($rootScope.cart.shops, {$id: $scope.shop.$id}).length
                     if (!shopPresent) {
@@ -279,14 +310,14 @@ angular.module('app.controllers', [])
                         template: 'Added to cart successfully!',
                         duration: 1000
                     });
-                    $rootScope.cart.badge+=1;
+                    $rootScope.cart.badge += 1;
                 }
             }])
 
 
 
-        .controller('foodShopShowCtrl', ["$scope", '$firebaseObject', '$rootScope', '$stateParams', 'sharedUtils', '$ionicModal', '$filter','$ionicLoading',
-            function($scope, $firebaseObject, $rootScope, $stateParams, sharedUtils, $ionicModal, $filter, $ionicLoading) {                
+        .controller('foodShopShowCtrl', ["$scope", '$firebaseObject', '$rootScope', '$stateParams', 'sharedUtils', '$ionicModal', '$filter', '$ionicLoading',
+            function($scope, $firebaseObject, $rootScope, $stateParams, sharedUtils, $ionicModal, $filter, $ionicLoading) {
                 sharedUtils.showLoading();
                 var ref = firebase.database().ref('foodShops').child($stateParams.id);
                 var shop = $firebaseObject(ref)
@@ -296,7 +327,6 @@ angular.module('app.controllers', [])
                             sharedUtils.hideLoading();
                         })
                         .catch(function(err) {
-                            console.error(err);
                             sharedUtils.hideLoading();
                         });
 
@@ -341,7 +371,7 @@ angular.module('app.controllers', [])
                         template: 'Added to cart successfully!',
                         duration: 1000
                     });
-                    $rootScope.cart.badge+=1;
+                    $rootScope.cart.badge += 1;
                 }
 
             }])

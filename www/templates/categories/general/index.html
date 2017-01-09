@@ -1,21 +1,21 @@
-<ion-view title="Events">
+<ion-view title="General">
     <ion-nav-buttons side="secondary">
         <button class="button button-icon icon ion-ios-search-strong" apply-search-filter filter="title" data="data">
         </button>
     </ion-nav-buttons>
     <ion-content padding="true" class="has-header">    
-        <div class="food-tile" ng-repeat="event in data.items" ng-click="openEvent(event)">
-            <div class="image-area" style="background-image: url({{event.banner}})">
+        <div class="food-tile" ng-repeat="item in data.items" ng-click="openEvent(item)">
+            <div class="image-area" style="background-image: url({{item.banner}})">
 
             </div>
             <div class="row">
                 <div class="col col-100 name">
-                    {{event.title}}
+                    {{item.title}}
                 </div>                         
             </div>
             <div class="row">
                 <div class="col col-100 speciality">
-                    {{event.startTime|date : 'M/dd/yy h:mm a EEEE'}}
+                    {{item.startTime|date : 'M/dd/yy h:mm a EEEE'}}
                 </div>              
             </div>
         </div>

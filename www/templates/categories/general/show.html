@@ -1,0 +1,34 @@
+<ion-view> 
+    <ion-nav-buttons side="right">
+        <button class="button back-button buttons  button-clear header-item" native-share subject="{{generalItem.title}}" message="Sharing {{generalItem.title}} from Kilimanjaro" files="{{generalItem.banner}}">
+            <i class="ion-android-share-alt nav-icon-for-share"></i>             
+        </button>     
+    </ion-nav-buttons>
+    <ion-nav-title>{{generalItem.title}}</ion-nav-title>
+    <ion-content class="food-show event">          
+        <div class="image-area" style="background-image: url({{generalItem.banner}})">
+
+        </div>
+        <div class="blocks">
+            <div class="block">
+                Title: {{generalItem.title}}
+            </div>
+            <div class="block">
+                Description: {{generalItem.description}}
+            </div>
+            <div class="block">
+                Location: {{generalItem.address}}
+            </div>
+            <div class="block">
+                Time: {{generalItem.startTime|date : 'M/dd/yy h:mm a EEEE'}} - {{generalItem.endTime|date : 'M/dd/yy h:mm a EEEE'}}
+            </div>
+            <div class="block contact">
+                Email: <a href="mailto:{{generalItem.email}}">{{generalItem.email}}</a>
+            </div>
+            <div class="block contact">
+                Phone: {{generalItem.contactName}} <a href="tel:{{generalItem.phoneNumber}}">{{generalItem.phoneNumber}}</a>
+            </div>
+        </div>
+        <a href="javascript:void(0);" class="button button-calm  button-block">Contact</a>             
+    </ion-content>
+</ion-view>
