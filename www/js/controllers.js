@@ -106,7 +106,7 @@ angular.module('app.controllers', [])
             }])
 
 
-        .controller('PaymentCtrl', ['$scope', '$rootScope', 'sharedUtils', '$ionicLoading', '$firebaseArray', '$state', '$ionicHistory', function($scope, $rootScope, sharedUtils, $ionicLoading, $firebaseArray, $state, $ionicHistory) {
+        .controller('PaymentCtrl', ['$scope', '$rootScope', 'sharedUtils', '$ionicLoading', '$firebaseArray', '$state', '$ionicHistory','$timeout', function($scope, $rootScope, sharedUtils, $ionicLoading, $firebaseArray, $state, $ionicHistory, $timeout) {
                 $scope.stripeCallback = function(code, result) {
                     if (result.error) {
                         $ionicLoading.show({
@@ -133,7 +133,10 @@ angular.module('app.controllers', [])
                             template: 'Your order has been placed, thank you for shopping with us.',
                             duration: 4000
                         })
-                        $state.transitionTo('tabsController.landing')
+                        $state.transitionTo('tabsController.landing');
+                        $timeout(function(){
+                            $ionicHistory.clearHistory();
+                        }, 1000)
                         $rootScope.cart = {shops: [], badge: 0};
                     }, function(error) {
                         $ionicLoading.show({
