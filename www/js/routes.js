@@ -15,17 +15,51 @@ angular.module('app.routes', [])
                         templateUrl: 'templates/tabsController.html',
                         abstract: true
                     })
-                    
+
                     .state('tabsController.cartIndex', {
                         url: '/cart/index',
                         views: {
                             'cartTab': {
-                                templateUrl: 'templates/cart/index.html',
+                                templateUrl: 'templates/checkout/cart.html',
                                 controller: 'CartCtrl'
                             }
                         }
                     })
                     
+                    .state('tabsController.billingIndex', {
+                        url: '/billing/index',
+                        views: {
+                            'billingTab': {
+                                templateUrl: 'templates/billing/index.html',
+                                controller: 'OrdersCtrl'
+                            }
+                        }
+                    })
+
+                    .state('tabsController.payment', {
+                        url: '/cart/payment',
+                        views: {
+                            'cartTab': {
+                                templateUrl: 'templates/checkout/payment.html',
+                                controller: 'PaymentCtrl'
+                            }
+                        }
+                    })
+
+                    .state('tabsController.billingAddress', {
+                        url: '/cart/address',
+                        views: {
+                            'cartTab': {
+                                templateUrl: 'templates/checkout/address.html',
+                                controller: 'AddressCtrl'
+                            }
+                        }, resolve: {
+                            "currentAuth": ["Auth", function(Auth) {
+                                    return Auth.$requireSignIn();
+                                }]
+                        }
+                    })
+
                     .state('tabsController.landing', {
                         url: '/landing',
                         views: {
@@ -65,7 +99,7 @@ angular.module('app.routes', [])
                             }
                         }
                     })
-                    
+
                     .state('tabsController.forgotPassword', {
                         url: '/forgotPassword',
                         views: {
@@ -138,7 +172,7 @@ angular.module('app.routes', [])
                         }
 
                     })
-                    
+
                     .state('tabsController.clothingShop', {
                         url: '/category/clothingShop/:id',
                         views: {
@@ -153,7 +187,7 @@ angular.module('app.routes', [])
                         }
 
                     })
-                    
+
                     .state('tabsController.eventCategory', {
                         url: '/category/events',
                         views: {
@@ -168,7 +202,7 @@ angular.module('app.routes', [])
                         }
 
                     })
-                    
+
                     .state('tabsController.event', {
                         url: '/category/event/:id',
                         views: {
@@ -183,7 +217,7 @@ angular.module('app.routes', [])
                         }
 
                     })
-                    
+
                     .state('tabsController.generalItem', {
                         url: '/category/general/:id',
                         views: {
@@ -198,7 +232,7 @@ angular.module('app.routes', [])
                         }
 
                     })
-                    
+
                     .state('tabsController.generalCategory', {
                         url: '/category/general',
                         views: {

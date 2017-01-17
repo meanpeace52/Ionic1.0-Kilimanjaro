@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives', 'app.services', 'firebase', 'jett.ionic.filter.bar'])
+angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives', 'app.services', 'firebase', 'jett.ionic.filter.bar', 'angularPayments'])
 
         .constant('FirebaseUrl', 'https://kilimanjaro-551ef.firebaseio.com/')
         .config(function($ionicConfigProvider, $sceDelegateProvider) {
@@ -42,10 +42,15 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
             });
         })
 
+        .config(function($windowProvider) {
+            var $window = $windowProvider.$get();
+            $window.Stripe.setPublishableKey('pk_test_Efg21u9cIT1MVl2F6aKwLZu4');
+        })
+
 
         .run(["$rootScope", "$state", function($rootScope, $state) {
                 $rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {
-                    if (error === "AUTH_REQUIRED") {                        
+                    if (error === "AUTH_REQUIRED") {
                         $state.go("tabsController.landing");
                     }
                 });

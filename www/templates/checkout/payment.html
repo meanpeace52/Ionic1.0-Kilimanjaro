@@ -1,0 +1,43 @@
+<ion-view title="Payment Details">
+    <ion-content padding="true" class="has-header">    
+        <form stripe-form="stripeCallback">
+            <div class="">
+                <div class="row flush-padding">
+                    <div class="col">
+                        <label class="item item-input item-stacked-label">
+                            <span class="input-label">Card Number</span>
+                            <input type="text" placeholder="Card Number" payments-format="card" ng-model="number">
+                        </label>
+                    </div>              
+                </div>
+                <div class="row flush-padding">
+                    <div class="col">
+                        <label class="item item-input item-stacked-label">
+                            <span class="input-label">Name on card</span>
+                            <input type="text" placeholder="Name on card" ng-model="name">
+                        </label>
+                    </div>              
+                </div>
+                <div class="row flush-padding">
+                    <div class="col">
+                        <label class="item item-input item-stacked-label">
+                            <span class="input-label">Expiry</span>
+                            <input type="text" placeholder="MM/YYYY" payments-format="expiry" ng-model="expiry">
+                        </label>
+                    </div>
+                    <div class="col">
+                        <label class="item item-input item-stacked-label">
+                            <span class="input-label">CVC</span>
+                            <input type="text" placeholder="CVC" payments-format="cvc" ng-model="cvc">
+                        </label>
+                    </div>
+                </div>
+            </div> 
+            <div class="row flush-padding">
+                <div class="col">
+                    <button type="submit" class="button button-balanced button-block">Submit</button>
+                </div>
+            </div>            
+        </form>
+    </ion-content>
+</ion-view>

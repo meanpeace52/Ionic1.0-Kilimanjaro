@@ -45,7 +45,7 @@
                 </div>
             </div>
 
-            <button ng-show='cart.badge'  class="button button-calm button-block">CHECKOUT</button>
+            <button ng-show='cart.badge'  class="button button-calm button-block" ui-sref="tabsController.billingAddress">CHECKOUT</button>
             <div class='no-items' ng-if='!cart.badge'>
                 <div class="card">
                     <div class="item item-text-wrap text-center">

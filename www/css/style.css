@@ -6,9 +6,25 @@
 .nav-icon-for-share {
     font-size: 25px;
 }
-.cart-index-page .row{
+.cart-index-page .row, .row.flush-padding{
     padding-left:0px;
     padding-right: 0px;
+}
+.card .order-note{
+    background: #33cd5f;
+    color: #fff;
+    font-size: 20px;
+    line-height: 24px;
+    padding: 7px;
+}
+.cart-index-page .row.morePad{
+    padding: 16px;
+}
+.item p.shop-name-green{
+    color:#245D34;
+}
+.card.address-card small{
+    display: block;
 }
 .cart-index-page .total {
     font-size: 20px;
@@ -243,16 +259,29 @@ ion-item.small-item{
     right: 8px;
     bottom: 0;
 }
-.food-show.service-modal .cart-cont .button.button-positive{
-    background-color: #8A8A8A;
+.food-show.service-modal .cart-cont .button.button-balanced{    
     font-weight: bold;   
 }
 .food-show.service-modal .image-area{
     background-color:#000;
 }
-.food-show.service-modal .cart-cont .button.button-positive span {
+.food-show.service-modal .cart-cont .button.button-balanced span {
     position: absolute;
     font-weight:normal;
     right: 10px;
     font-size: 13px;
+}
+.promo-modal{
+    background: #000;
+}
+.promo-modal .promo-cont {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    display: -webkit-flex;
+    -webkit-align-items: center;
+    -webkit-justify-content: center;  
+}
+.orders-list .item-text-wrap small{
+    color:#A5A5A5;
 }

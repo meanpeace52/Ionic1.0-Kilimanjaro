@@ -1,0 +1,66 @@
+<ion-modal-view class="food-show service-modal">
+    <ion-header-bar>
+        <div class="buttons">
+            <button class="button" ng-click="closeModal()">Close</button>
+        </div>
+        <h1 class="title">
+            {{order.$id}}
+        </h1>        
+    </ion-header-bar>    
+    <ion-content>        
+        <div class='cart-index-page'>
+            <div class="card">
+                <div class="item item-text-wrap">
+                    <b>Amount: </b>${{getCartTotal(order) | number
+                        :2}}                    
+                </div>
+            </div>    
+            <div class="card">
+                <div class="item item-text-wrap">
+                    <b>Status: </b>{{order.status}}                   
+                </div>
+            </div>
+            <div class="card address-card">
+                <div class="item item-text-wrap">                    
+                    <div>
+                        <b>Address</b>
+                    </div>
+                    <small>
+                        <b>Name </b> {{order.address.name}}
+                    </small>
+                    <small>
+                        <b>Address: </b> {{order.address.address}}
+                    </small>
+                    <small>
+                        <b>City: </b> {{order.address.city}}
+                    </small>
+                    <small>
+                        <b>Country: </b> {{order.address.country}}
+                    </small>
+                    <small>
+                        <b>State: </b> {{order.address.state}}
+                    </small>
+                </div>
+            </div>
+            <div class="card" ng-if='order.note'>
+                <div class="text-center order-note">
+                    {{order.note}}               
+                </div>
+            </div>
+
+            <div class="list">
+                <div ng-repeat='shop in order.shops'>
+                    <a class="item item-thumbnail-left" href="javascript:void(0)" ng-repeat='item in shop.cartItems' ng-if='item'>
+                        <img ng-src='{{item.imgUrl}}'>                        
+                        <h2>{{item.name}}</h2>
+                        <p class='shop-name-green'>{{shop.name}}</p>
+                        <p>Quantity: {{item.quantity}}</p>
+                        <p>Amount:<b>${{(item.price * item.quantity)| number:2}}</b></p>
+                    </a>
+                </div>
+
+            </div>
+        </div> 
+
+    </ion-content>
+</ion-modal-view>

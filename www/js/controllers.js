@@ -48,9 +48,161 @@ angular.module('app.controllers', [])
                 }
             }])
 
-        .controller('kilimanjaro2Ctrl', ['$scope', '$stateParams',
-            function($scope, $stateParams) {
 
+        .controller('OrdersCtrl', ['$scope', '$rootScope', 'sharedUtils', '$firebaseArray', '$ionicModal', function($scope, $rootScope, sharedUtils, $firebaseArray, $ionicModal) {
+                sharedUtils.showLoading();
+                var refName = $rootScope.currentUser.uid + '-orders'
+                var ref = firebase.database().ref(refName);
+                $scope.orders = $firebaseArray(ref);
+                $scope.loading = true;
+                $scope.orders.$loaded()
+                        .then(function() {                            
+                            $scope.loading = false;
+                            sharedUtils.hideLoading();
+                        })
+                        .catch(function(err) {
+                            $scope.loading = false;
+                            sharedUtils.hideLoading();
+                        });
+
+                $scope.showOrder = function(order) {
+                    $scope.order = order;
+                    $ionicModal.fromTemplateUrl('templates/billing/modal_order.html', {
+                        scope: $scope,
+                        animation: 'slide-in-up'
+                    }).then(function(modal) {
+                        modal.show();
+                        $scope.modal = modal;
+                    });
+                    $scope.closeModal = function() {
+                        $scope.modal.hide();
+                    };
+                    $scope.$on('$destroy', function() {
+                        $scope.modal.remove();
+                    });
+                }
+
+                $scope.getCartTotal = function(order) {
+                    var total = 0;
+                    angular.forEach(order.shops, function(shop) {
+                        if (shop.cartItems && Object.keys(shop.cartItems).length > 0) {
+                            var keys = Object.keys(shop.cartItems);
+                            angular.forEach(keys, function(key) {
+                                var item = shop.cartItems[key];
+                                total = total + (item.price * item.quantity);
+                            });
+                        }
+                    });
+                    return total;
+                }
+
+            }])
+
+
+        .controller('PaymentCtrl', ['$scope', '$rootScope', 'sharedUtils', '$ionicLoading', '$firebaseArray', '$state', '$ionicHistory', function($scope, $rootScope, sharedUtils, $ionicLoading, $firebaseArray, $state, $ionicHistory) {
+                $scope.stripeCallback = function(code, result) {
+                    if (result.error) {
+                        $ionicLoading.show({
+                            template: result.error.message,
+                            duration: 2000
+                        })
+                    } else {
+                        saveOrder();
+                    }
+                };
+
+                function saveOrder() {
+                    var refName = $rootScope.currentUser.uid + '-orders'
+                    var ref = firebase.database().ref(refName);
+                    var orders = $firebaseArray(ref);
+                    sharedUtils.showLoading();
+                    $rootScope.cart.createdAt = Date.now();
+                    $rootScope.cart.status = 'Placed'
+                    $rootScope.cart.note = 'We have received your order, we are processing it now.'
+                    orders.$add($rootScope.cart).then(function(ref) {
+                        $ionicHistory.clearHistory();
+                        sharedUtils.hideLoading();
+                        $ionicLoading.show({
+                            template: 'Your order has been placed, thank you for shopping with us.',
+                            duration: 4000
+                        })
+                        $state.transitionTo('tabsController.landing')
+                        $rootScope.cart = {shops: [], badge: 0};
+                    }, function(error) {
+                        $ionicLoading.show({
+                            template: error,
+                            duration: 2000
+                        })
+                    });
+                }
+            }])
+
+        .controller('AddressCtrl', ['$scope', '$rootScope', '$ionicLoading', '$firebaseObject', 'sharedUtils', '$state', function($scope, $rootScope, $ionicLoading, $firebaseObject, sharedUtils, $state) {
+                sharedUtils.showLoading();
+                var watch = $rootScope.$watch('currentUser', function(val) {
+                    if (val) {
+                        getAddress()
+                        watch();
+                    }
+                })
+                //$scope.address.country = 'US'
+                $scope.saveAddress = function(valid) {
+                    if (!valid) {
+                        $ionicLoading.show({
+                            template: 'Please fill all the details!',
+                            duration: 1000
+                        })
+                    } else {
+                        sharedUtils.showLoading();
+                        $scope.address.$save().then(function(ref) {
+                            sharedUtils.hideLoading();
+                            $rootScope.cart.address = $scope.address;
+                            $state.transitionTo('tabsController.payment')
+                        }, function(error) {
+                            sharedUtils.hideLoading();
+                            $ionicLoading.show({
+                                template: error,
+                                duration: 1000
+                            })
+                        });
+                    }
+                }
+
+                function getAddress() {
+                    var refName = $rootScope.currentUser.uid + '-billingAddress';
+                    var ref = firebase.database().ref('billingAddresses').child(refName);
+                    $scope.address = $firebaseObject(ref);
+                    $scope.address.$loaded()
+                            .then(function() {
+                                sharedUtils.hideLoading();
+                            })
+                            .catch(function(err) {
+                                sharedUtils.hideLoading();
+                            });
+                }
+            }])
+
+        .controller('kilimanjaro2Ctrl', ['$scope', '$stateParams', '$ionicModal',
+            function($scope, $stateParams, $ionicModal) {
+                if (!localStorage.userSeenPromo) {
+                    showPromo();
+                }
+                function showPromo() {
+                    $ionicModal.fromTemplateUrl('templates/promo.html', {
+                        scope: $scope,
+                        animation: 'slide-in-up'
+                    }).then(function(modal) {
+                        modal.show();
+                        $scope.modal = modal;
+                        $scope.closeModal = function() {
+                            $scope.modal.hide();
+                            localStorage.userSeenPromo = true;
+                        };
+                        $scope.$on('$destroy', function() {
+                            $scope.modal.remove();
+                        });
+                    });
+                }
 
             }])
 

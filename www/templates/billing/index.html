@@ -1,0 +1,28 @@
+<ion-view title="Billing">    
+    <ion-content padding="true" class="has-header">   
+        
+        <div class='no-items' ng-if='!loading && !orders.length'>
+                <div class="card">
+                    <div class="item item-text-wrap text-center">
+                        No Orders yet.
+                    </div>
+                </div>
+            </div>
+        
+        
+        <div class="orders-list">
+            <div class="card" ng-repeat='order in orders| orderBy : order.createdAt : true' ng-click='showOrder(order)'>
+                <div class="item item-divider">
+                    ID: {{order.$id}}
+                </div>
+                <div class="item item-text-wrap">
+                    <b>{{order.badge}}</b> items<br/>
+                    <small>{{order.createdAt|date : 'M/dd/yy h:mm a EEEE'}} </small>
+                </div>
+                <div class="item item-divider">
+                    <small>Status: {{order.status}} </small>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>
