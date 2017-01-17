@@ -285,6 +285,7 @@ ion-item.small-item{
     display: -webkit-flex;
     -webkit-align-items: center;
     -webkit-justify-content: center;  
+    min-height: 89%;
 }
 .orders-list .item-text-wrap small{
     color:#A5A5A5;

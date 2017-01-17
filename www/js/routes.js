@@ -33,6 +33,10 @@ angular.module('app.routes', [])
                                 templateUrl: 'templates/billing/index.html',
                                 controller: 'OrdersCtrl'
                             }
+                        }, resolve: {
+                            "currentAuth": ["Auth", function(Auth) {
+                                    return Auth.$requireSignIn();
+                                }]
                         }
                     })
 

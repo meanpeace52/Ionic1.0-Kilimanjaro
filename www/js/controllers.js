@@ -1,7 +1,7 @@
 angular.module('app.controllers', [])
 
-        .controller('kilimanjaroCtrl', ['$rootScope', 'Auth', '$scope', '$state', '$rootScope',
-            function($rootScope, Auth, $scope, $state, $rootScope) {
+        .controller('kilimanjaroCtrl', ['$rootScope', 'Auth', '$scope', '$state', '$rootScope', '$ionicHistory', '$ionicTabsDelegate', '$timeout',
+            function($rootScope, Auth, $scope, $state, $rootScope, $ionicHistory, $ionicTabsDelegate, $timeout) {
                 Auth.$onAuthStateChanged(function(user) {
                     if (user) {
                         $rootScope.currentUser = user;
@@ -10,9 +10,16 @@ angular.module('app.controllers', [])
 
                 $scope.logOut = function() {
                     Auth.$signOut().then(function() {
-                        delete $rootScope.currentUser;
+                        //delete $rootScope.currentUser;
                         $rootScope.cart = {shops: [], badge: 0};
-                        $state.go('tabsController.landing');
+                        $state.transitionTo('tabsController.landing');
+                        $ionicHistory.clearCache().then(function() {
+                            $ionicHistory.clearHistory();
+                            $ionicTabsDelegate.select(0);
+                            $timeout(function() {
+                                delete $rootScope.currentUser;
+                            })
+                        });                        
                     }, function(error) {
 
                     });
@@ -56,7 +63,7 @@ angular.module('app.controllers', [])
                 $scope.orders = $firebaseArray(ref);
                 $scope.loading = true;
                 $scope.orders.$loaded()
-                        .then(function() {                            
+                        .then(function() {
                             $scope.loading = false;
                             sharedUtils.hideLoading();
                         })
@@ -186,6 +193,15 @@ angular.module('app.controllers', [])
             function($scope, $stateParams, $ionicModal) {
                 if (!localStorage.userSeenPromo) {
                     showPromo();
+                }
+                var clickCount=0;
+                $scope.promoEasterEgg = function(){
+                    clickCount+=1;
+                    if(clickCount >=3){
+                        console.log('here')
+                        delete localStorage.userSeenPromo;
+                        clickCount=0;
+                    }
                 }
                 function showPromo() {
                     $ionicModal.fromTemplateUrl('templates/promo.html', {

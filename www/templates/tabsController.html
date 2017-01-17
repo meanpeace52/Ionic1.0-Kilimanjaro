@@ -6,10 +6,10 @@
 <!--        <ion-tab title="Messages" icon="ion-android-drafts" id="tabsController-tab2" href="javacript:void(0);">
             <ion-nav-view name="tab2"></ion-nav-view>
         </ion-tab>-->
-        <ion-tab title="Billing" icon="ion-card" id="tabsController-tab3" ng-if="currentUser" href="#/home/billing/index">
+        <ion-tab title="Billing" icon="ion-card" id="tabsController-tab3" disabled="!currentUser" href="#/home/billing/index">
             <ion-nav-view name="billingTab"></ion-nav-view>
         </ion-tab>
-        <ion-tab title="Cart" icon="ion-ios-cart" ng-if="currentUser" href="#/home/cart/index" id="tabsController-tab4"  badge="cart.badge" badge-style="badge-calm" >            
+        <ion-tab title="Cart" icon="ion-ios-cart" disabled="!currentUser" href="#/home/cart/index" id="tabsController-tab4"  badge="cart.badge" badge-style="badge-calm" >            
             <ion-nav-view name="cartTab"></ion-nav-view>
         </ion-tab>
     </ion-tabs>
