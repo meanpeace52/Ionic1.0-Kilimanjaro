@@ -10,11 +10,10 @@
     padding-left:0px;
     padding-right: 0px;
 }
-.overflow-scroll {
-  &.keyboard-up:not(.keyboard-up-confirm) {
-    overflow: hidden;
-  }
+.overflow-scroll.keyboard-up:not(.keyboard-up-confirm) {
+  overflow: hidden;
 }
+
 .card .order-note{
     background: #33cd5f;
     color: #fff;
