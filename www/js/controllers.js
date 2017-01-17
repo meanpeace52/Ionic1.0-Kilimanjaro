@@ -253,8 +253,8 @@ angular.module('app.controllers', [])
                     if (email) {
                         Auth.$sendPasswordResetEmail(email).then(function(response) {
                             $ionicLoading.show({
-                                template: 'You will receive a link shortly to rest your password.',
-                                duration: 3000
+                                template: 'You will receive a link shortly to reset your password.',
+                                duration: 4000
                             })
                             $state.go('tabsController.landing')
                         }).catch(function(error) {
