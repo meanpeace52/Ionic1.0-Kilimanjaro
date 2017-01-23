@@ -3,6 +3,17 @@
     font-size: 23px;
     margin-bottom: 4px;
 }
+.mail-merchant-link a{
+    color:#000;
+    text-decoration: none;
+}
+.tab-item.disabled, .tab-item[disabled]{
+    display: none;
+}
+/*.platform-ios .modal{
+    bottom:49px;
+    min-height: initial;
+}*/
 .nav-icon-for-share {
     font-size: 25px;
 }

@@ -12,7 +12,12 @@
     <div id="kilimanjaro2-button-bar1" class="button-bar" ng-if="!currentUser">
       <a ui-sref="tabsController.login" id="kilimanjaro2-button5" class="button button-balanced  button-block">Sign in </a>
       <a ui-sref="tabsController.signup" id="kilimanjaro2-button7" class="button button-stable  button-block">Sign up</a>
-    </div>    
+    </div> 
+      <div class="mail-merchant-link text-center" ng-if="!currentUser">
+          <a href="mailto:acouplethings70@gmail.com">
+              Want to list your shop, event, or service?
+          </a>
+      </div>
       <div id="kilimanjaro2-button-bar1" class="button-bar" ng-if="currentUser">
       <a ui-sref="tabsController.categories"  class="button button-balanced  button-block">Explore whats around you </a>      
     </div> 

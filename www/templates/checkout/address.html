@@ -1,4 +1,4 @@
-<ion-view title="Shipping Address">
+<ion-view title="Delivery Address">
     <ion-content padding="true" class="has-header">         
         <form ng-submit="saveAddress(addressForms.$valid)" novalidate name="addressForms">
             <div>
@@ -10,7 +10,7 @@
                         </label>
                     </div>              
                 </div>
-                
+
                 <div class="row flush-padding">
                     <div class="col">
                         <label class="item item-input item-stacked-label">
@@ -19,8 +19,24 @@
                         </label>
                     </div>              
                 </div> 
-                                
-                
+
+                <div class="row flush-padding">
+                    <div class="col">
+                        <label class="item item-input item-stacked-label">
+                            <span class="input-label">Apartment Number</span>
+                            <input type="text" placeholder="Apartment Number" ng-model="address.apartmentNumber" required>
+                        </label>
+                    </div>                       
+                </div>   
+                <div class="row flush-padding">
+                    <div class="col">
+                        <label class="item item-input item-stacked-label">
+                            <span class="input-label">Telephone Number</span>
+                            <input type="text" placeholder="In case there is an issue contacting you." ng-model="address.contactNumber" required>
+                        </label>
+                    </div>                       
+                </div>  
+
                 <div class="row flush-padding">
                     <div class="col">
                         <label class="item item-input item-stacked-label">
@@ -35,8 +51,8 @@
                         </label>
                     </div> 
                 </div>
-                
-                 <div class="row flush-padding">
+
+                <div class="row flush-padding">
                     <div class="col col-33">
                         <label class="item item-input item-stacked-label">
                             <span class="input-label">Zip</span>
@@ -50,12 +66,12 @@
                         </label>
                     </div> 
                 </div>
-                
-                
+
+
             </div> 
             <div class="row flush-padding">
                 <div class="col">
-                    <button type="submit" class="button button-balanced button-block">Submit</button>
+                    <button type="submit" class="button button-balanced button-block">Next</button>
                 </div>
             </div>            
         </form>

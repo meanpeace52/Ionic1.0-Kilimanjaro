@@ -114,6 +114,7 @@ angular.module('app.controllers', [])
                             duration: 2000
                         })
                     } else {
+                        console.log(result)
                         saveOrder();
                     }
                 };
