@@ -50,9 +50,9 @@
 
             <div class="list">
                 <div ng-repeat='shop in order.shops'>
-                    <a class="item item-thumbnail-left" href="javascript:void(0)" ng-repeat='item in shop.cartItems' ng-if='item'>
+                    <a class="item item-thumbnail-left" href="javascript:void(0)" ng-repeat="item in shop.cartItems  track by $index" ng-if="item">
                         <img ng-src='{{item.imgUrl}}'>                        
-                        <h2>{{item.name}}</h2>
+                        <h2>{{item.name}} {{item.$id}}</h2>
                         <p class='shop-name-green'>{{shop.name}}</p>
                         <p>Quantity: {{item.quantity}}</p>
                         <p>Amount:<b>${{(item.price * item.quantity)| number:2}}</b></p>

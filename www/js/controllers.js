@@ -19,7 +19,7 @@ angular.module('app.controllers', [])
                             $timeout(function() {
                                 delete $rootScope.currentUser;
                             })
-                        });                        
+                        });
                     }, function(error) {
 
                     });
@@ -73,7 +73,7 @@ angular.module('app.controllers', [])
                         });
 
                 $scope.showOrder = function(order) {
-                    $scope.order = order;
+                    $scope.order = order;                    
                     $ionicModal.fromTemplateUrl('templates/billing/modal_order.html', {
                         scope: $scope,
                         animation: 'slide-in-up'
@@ -106,7 +106,8 @@ angular.module('app.controllers', [])
             }])
 
 
-        .controller('PaymentCtrl', ['$scope', '$rootScope', 'sharedUtils', '$ionicLoading', '$firebaseArray', '$state', '$ionicHistory','$timeout', function($scope, $rootScope, sharedUtils, $ionicLoading, $firebaseArray, $state, $ionicHistory, $timeout) {
+        .controller('PaymentCtrl', ['$scope', '$rootScope', 'sharedUtils', '$ionicLoading', '$firebaseArray', '$state', '$ionicHistory', '$timeout', 'EmailNotification', 'Stripe',
+            function($scope, $rootScope, sharedUtils, $ionicLoading, $firebaseArray, $state, $ionicHistory, $timeout, EmailNotification, Stripe) {
                 $scope.stripeCallback = function(code, result) {
                     if (result.error) {
                         $ionicLoading.show({
@@ -114,37 +115,126 @@ angular.module('app.controllers', [])
                             duration: 2000
                         })
                     } else {
-                        console.log(result)
-                        saveOrder();
+                        saveOrder(result);
                     }
                 };
 
-                function saveOrder() {
+                function saveOrder(stripeData) {
                     var refName = $rootScope.currentUser.uid + '-orders'
                     var ref = firebase.database().ref(refName);
                     var orders = $firebaseArray(ref);
                     sharedUtils.showLoading();
+                    notifyVendors($rootScope.cart);
                     $rootScope.cart.createdAt = Date.now();
                     $rootScope.cart.status = 'Placed'
                     $rootScope.cart.note = 'We have received your order, we are processing it now.'
                     orders.$add($rootScope.cart).then(function(ref) {
-                        $ionicHistory.clearHistory();
-                        sharedUtils.hideLoading();
-                        $ionicLoading.show({
-                            template: 'Your order has been placed, thank you for shopping with us.',
-                            duration: 4000
-                        })
-                        $state.transitionTo('tabsController.landing');
-                        $timeout(function(){
-                            $ionicHistory.clearHistory();
-                        }, 1000)
-                        $rootScope.cart = {shops: [], badge: 0};
+                        chargeCard(stripeData, ref)
                     }, function(error) {
                         $ionicLoading.show({
                             template: error,
                             duration: 2000
                         })
                     });
+                }
+
+                function chargeCard(stripeData, firebaseData) {
+
+                    //cardToken stripeData.id
+                    //orderId firebaseData.key
+                    var param = {};
+                    var total = 0;
+                    angular.forEach($rootScope.cart.shops, function(shop) {
+                        if (shop.cartItems && Object.keys(shop.cartItems).length > 0) {
+                            var keys = Object.keys(shop.cartItems);
+                            angular.forEach(keys, function(key) {
+                                var item = shop.cartItems[key];
+                                total = total + (item.price * item.quantity);
+                            });
+                        }
+                    });
+                    param.amount = total * 100;
+                    param.token = stripeData.id;
+                    var userName = $rootScope.currentUser.email;
+                    if ($rootScope.currentUser.displayName) {
+                        userName = $rootScope.currentUser.displayName;
+                    }
+                    param.description = "Charging " + userName + " for Order ID: " + firebaseData.key;
+                    Stripe.chargeCard(param).then(function(response) {
+                        finalizeOrder();
+                    }, function() {
+                        $ionicLoading.show({
+                            template: 'Something went wrong while processing the payment, please try again later.',
+                            duration: 4000
+                        })
+                    })
+                }
+
+                function finalizeOrder() {
+                    $ionicHistory.clearHistory();
+                    sharedUtils.hideLoading();
+
+                    $ionicLoading.show({
+                        template: 'Your order has been placed, thank you for shopping with us.',
+                        duration: 4000
+                    })
+                    $state.transitionTo('tabsController.landing');
+                    $timeout(function() {
+                        $ionicHistory.clearHistory();
+                    }, 1000)
+                    $rootScope.cart = {shops: [], badge: 0};
+                }
+
+                function notifyVendors(rootScopeCart) {
+                    var cart = rootScopeCart;
+                    var shops = cart.shops;
+                    if (shops.length) {
+                        angular.forEach(shops, function(shop) {
+                            var params = {};
+                            params.to = shop.email;
+                            var userName = $rootScope.currentUser.email;
+                            if ($rootScope.currentUser.displayName) {
+                                userName = $rootScope.currentUser.displayName;
+                            }
+                            params.subject = "Kilimanjaro: new order placed by " + userName;
+                            var description = userName + " placed an order at your shop <b>" + shop.name + "</b>";
+                            description += "<h2>Order Details</h2><hr/>";
+                            description += "<ul>";
+                            var total = 0;
+                            angular.forEach(shop.cartItems, function(item) {
+                                description += "<li><b>" + item.name + "</b> (" + item.quantity + ")</li>";
+                                total += item.quantity * item.price;
+                            });
+                            var address = cart.address;
+                            description += "</ul>";
+                            description += "<h2>Address</h2><hr/>";
+                            description += "<ul>";
+                            var map = addressKeyMap();
+                            angular.forEach(Object.keys(map), function(key) {
+                                description += "<li><b>" + map[key] + ":</b> " + address[key] + "</li>"
+                            });
+                            description += "</ul>";
+                            description += "<h2>Order Total = $" + total + "</h2>";
+                            params.description = description;
+                            EmailNotification.sendEmail(params).then(function(response) {
+
+                            }, function(error) {
+
+                            })
+                        })
+                    }
+                }
+                function addressKeyMap() {
+                    return{
+                        address: "Address",
+                        apartmentNumber: "Apartment",
+                        city: "City",
+                        contactNumber: "Contact",
+                        country: "Country",
+                        name: "Name",
+                        state: "State",
+                        zip: "Zip"
+                    }
                 }
             }])
 
@@ -191,20 +281,20 @@ angular.module('app.controllers', [])
                                 sharedUtils.hideLoading();
                             });
                 }
-            }])
+            }
+        ])
 
         .controller('kilimanjaro2Ctrl', ['$scope', '$stateParams', '$ionicModal',
             function($scope, $stateParams, $ionicModal) {
                 if (!localStorage.userSeenPromo) {
                     showPromo();
                 }
-                var clickCount=0;
-                $scope.promoEasterEgg = function(){
-                    clickCount+=1;
-                    if(clickCount >=3){
-                        console.log('here')
+                var clickCount = 0;
+                $scope.promoEasterEgg = function() {
+                    clickCount += 1;
+                    if (clickCount >= 3) {
                         delete localStorage.userSeenPromo;
-                        clickCount=0;
+                        clickCount = 0;
                     }
                 }
                 function showPromo() {
@@ -279,9 +369,12 @@ angular.module('app.controllers', [])
         .controller('signupCtrl', ['$scope', '$firebaseAuth', '$ionicLoading', '$rootScope', '$state',
             function($scope, $firebaseAuth, $ionicLoading, $rootScope, $state) {
                 $scope.signUp = function(user) {
-                    if (user && user.email && user.password) {
+                    if (user && user.email && user.password && user.name) {
                         $firebaseAuth().$createUserWithEmailAndPassword(user.email, user.password).then(function(firebaseUser) {
                             $rootScope.currentUser = firebaseUser;
+                            firebaseUser.updateProfile({
+                                displayName: user.name
+                            })
                             $ionicLoading.show({
                                 template: 'Account created successfully!',
                                 duration: 3000
@@ -295,7 +388,7 @@ angular.module('app.controllers', [])
                         });
                     } else {
                         $ionicLoading.show({
-                            template: 'Please provide email and password',
+                            template: 'Please provide email, password and name',
                             duration: 1000
                         })
                     }
@@ -378,8 +471,8 @@ angular.module('app.controllers', [])
                 }
             }])
 
-        .controller('GeneralCatShowCtrl', ["$scope", '$firebaseObject', '$stateParams', 'sharedUtils',
-            function($scope, $firebaseObject, $stateParams, sharedUtils) {
+        .controller('GeneralCatShowCtrl', ["$scope", '$firebaseObject', '$stateParams', 'sharedUtils', 'EmailNotification', '$ionicLoading', '$rootScope',
+            function($scope, $firebaseObject, $stateParams, sharedUtils, EmailNotification, $ionicLoading, $rootScope) {
                 sharedUtils.showLoading();
                 var ref = firebase.database().ref('general').child($stateParams.id);
                 var generalItem = $firebaseObject(ref)
@@ -391,10 +484,36 @@ angular.module('app.controllers', [])
                         .catch(function(err) {
                             sharedUtils.hideLoading();
                         });
+
+                $scope.contact = function() {
+                    sharedUtils.showLoading();
+                    var params = {};
+                    var userName = $rootScope.currentUser.email;
+                    if ($rootScope.currentUser.displayName) {
+                        userName = $rootScope.currentUser.displayName;
+                    }
+                    params.to = $scope.generalItem.email;
+                    params.subject = "Kilimanjaro: User interested in your service";
+                    params.description = "<b>" + userName + "</b> is interested in your service <b>" + $scope.generalItem.title + "</b>";
+                    params.description += "<br/>Contact: " + $rootScope.currentUser.email;
+                    EmailNotification.sendEmail(params).then(function(response) {
+                        sharedUtils.hideLoading();
+                        $ionicLoading.show({
+                            template: 'Notified the service owner successfully!',
+                            duration: 2000
+                        });
+                    }, function(error) {
+                        sharedUtils.hideLoading();
+                        $ionicLoading.show({
+                            template: 'Not able to contact the owner, please try again after some time!',
+                            duration: 3000
+                        });
+                    })
+                }
             }])
 
-        .controller('EventShowCtrl', ["$scope", '$firebaseObject', '$stateParams', 'sharedUtils',
-            function($scope, $firebaseObject, $stateParams, sharedUtils) {
+        .controller('EventShowCtrl', ["$scope", '$firebaseObject', '$stateParams', 'sharedUtils', 'EmailNotification', '$rootScope', '$ionicLoading',
+            function($scope, $firebaseObject, $stateParams, sharedUtils, EmailNotification, $rootScope, $ionicLoading) {
                 sharedUtils.showLoading();
                 var ref = firebase.database().ref('events').child($stateParams.id);
                 var event = $firebaseObject(ref)
@@ -406,6 +525,25 @@ angular.module('app.controllers', [])
                         .catch(function(err) {
                             sharedUtils.hideLoading();
                         });
+                $scope.going = function() {
+                    var params = {};
+                    var userName = $rootScope.currentUser.email;
+                    if ($rootScope.currentUser.displayName) {
+                        userName = $rootScope.currentUser.displayName;
+                    }
+                    params.to = $scope.event.email;
+                    params.subject = "Kilimanjaro: User interested in event";
+                    params.description = "<b>" + userName + "</b> is interested in your event <b>" + $scope.event.title + "</b>";
+                    params.description += "<br/>Contact: " + $rootScope.currentUser.email;
+                    EmailNotification.sendEmail(params).then(function(response) {
+                        $ionicLoading.show({
+                            template: 'Notified the event admin successfully!',
+                            duration: 2000
+                        });
+                    }, function(error) {
+
+                    })
+                }
             }])
         .controller('clothingShopsCtrl', ["$scope", '$firebaseArray', '$state', 'sharedUtils',
             function($scope, $firebaseArray, $state, sharedUtils) {

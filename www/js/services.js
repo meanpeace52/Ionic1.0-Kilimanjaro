@@ -38,33 +38,58 @@ angular.module('app.services', [])
             }
         ])
 
-//        .factory('EmailNotification', ['$http', '$q', function($http, $q) {
-//                var from = 'noreply@kilimanjaroTest.com';
-//                return{
-//                    sendEmail: function(to) {
-//                        var defer = $q.defer();
-//                        var data = {};
-//                        data.personalizations = [{to: to}];
-//                        data.from = from;
-//                        data.content = [{type: 'text/html', value: 'Hey Username.'}]
-//                        var req = {
-//                            method: 'POST',
-//                            url: 'https://api.sendgrid.com/v3/mail/send',
-//                            headers: {
-//                                'Content-Type': 'application/json',
-//                            },
-//                            data: data
-//                        }
-//
-//                        $http(req).then(function(success) {
-//                            defer.resolve(success)
-//                        }, function(err) {
-//                            defer.reject(err)
-//                        });
-//                        return defer.promise()
-//                    }
-//                }
-//            }])
+        .factory('EmailNotification', ['$http', '$q', function($http, $q) {
+                var from = 'noreply@kilimanjaroTest.com';
+                return{
+                    sendEmail: function(params) {
+                        var defer = $q.defer();
+                        var data = {};
+                        data.to = params.to;
+                        data.subject = params.subject;
+                        data.description = params.description;
+                        data.from = from;
+                        var req = {
+                            method: 'POST',
+                            url: 'http://138.197.74.46:3000/notifications/send_mail',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            data: data
+                        }
+
+                        $http(req).then(function(success) {
+                            defer.resolve(success)
+                        }, function(err) {
+                            defer.reject(err)
+                        });
+                        return defer.promise;
+                    }
+                }
+            }])
+        
+        .factory('Stripe', ['$http', '$q', function($http, $q) {               
+                return{
+                    chargeCard: function(data) {
+                        var defer = $q.defer();    
+                        //data must have token amout token description
+                        var req = {
+                            method: 'POST',
+                            url: 'http://138.197.74.46:3000/stripe/chargeByToken',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            data: data
+                        }
+
+                        $http(req).then(function(success) {
+                            defer.resolve(success)
+                        }, function(err) {
+                            defer.reject(err)
+                        });
+                        return defer.promise;
+                    }
+                }
+            }])
 
         .service('BlankService', [function() {
 
