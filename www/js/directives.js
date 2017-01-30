@@ -31,7 +31,7 @@ angular.module('app.directives', [])
                     elem.bind('click', function(){
                         var target = attr.appHref;
                         if(window.cordova && window.cordova.InAppBrowser){
-                            window.cordova.InAppBrowser.open(target, '_blank', 'location=yes')
+                            window.cordova.InAppBrowser.open(target, '_blank', 'location=yes,enableviewportscale=yes')
                         }else{
                             window.open(target, '_blank', 'location=yes')
                         }
