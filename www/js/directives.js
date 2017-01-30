@@ -23,6 +23,22 @@ angular.module('app.directives', [])
                 }
             };
         })
+        
+        .directive('appHref', function(){
+            return{
+                restrict: 'A',
+                link: function(scope, elem, attr){
+                    elem.bind('click', function(){
+                        var target = attr.appHref;
+                        if(window.cordova && window.cordova.InAppBrowser){
+                            window.cordova.InAppBrowser.open(target, '_blank', 'location=yes')
+                        }else{
+                            window.open(target, '_blank', 'location=yes')
+                        }
+                    })
+                }
+            }
+        })
 
         .directive('applySearchFilter', ['$ionicFilterBar', '$timeout', function($ionicFilterBar, $timeout) {
                 return{
