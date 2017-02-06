@@ -44,7 +44,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
 
         .config(function($windowProvider) {
             var $window = $windowProvider.$get();
-            $window.Stripe.setPublishableKey('pk_test_Efg21u9cIT1MVl2F6aKwLZu4');
+            $window.Stripe.setPublishableKey('pk_test_V6tY75bhUFLPffiR8GJwof07');
         })
 
 

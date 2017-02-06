@@ -124,12 +124,14 @@ angular.module('app.controllers', [])
                     var ref = firebase.database().ref(refName);
                     var orders = $firebaseArray(ref);
                     sharedUtils.showLoading();
-                    notifyVendors($rootScope.cart);
+                    //notifyVendors($rootScope.cart);
                     $rootScope.cart.createdAt = Date.now();
-                    $rootScope.cart.status = 'Placed'
-                    $rootScope.cart.note = 'We have received your order, we are processing it now.'
+                    $rootScope.cart.status = 'Placed';
+                    $rootScope.cart.note = 'We have received your order, we are processing it now.';
+                    $rootScope.cart.timestamp = Math.floor(Date.now() / 1000);
                     orders.$add($rootScope.cart).then(function(ref) {
                         chargeCard(stripeData, ref)
+                        notifyVendors($rootScope.cart);
                     }, function(error) {
                         $ionicLoading.show({
                             template: error,
@@ -197,7 +199,7 @@ angular.module('app.controllers', [])
                                 userName = $rootScope.currentUser.displayName;
                             }
                             params.subject = "Kilimanjaro: new order placed by " + userName;
-                            var description = userName + " placed an order at your shop <b>" + shop.name + "</b>";
+                            var description = userName + " placed an order with ID(<b>"+cart.timestamp+"</b>) at your shop <b>" + shop.name + "</b>";
                             description += "<h2>Order Details</h2><hr/>";
                             description += "<ul>";
                             var total = 0;

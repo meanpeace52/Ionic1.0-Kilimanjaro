@@ -24,12 +24,15 @@ angular.module('app.directives', [])
             };
         })
         
-        .directive('appHref', function(){
+        .directive('pdfHref', function(){
             return{
                 restrict: 'A',
-                link: function(scope, elem, attr){
+                link: function(scope, elem, attr){                    
                     elem.bind('click', function(){
-                        var target = attr.appHref;
+                        var target = attr.pdfHref;
+                        if(ionic.Platform.isAndroid()){
+                            target = 'https://docs.google.com/gview?embedded=true&url='+attr.pdfHref
+                        }
                         if(window.cordova && window.cordova.InAppBrowser){
                             window.cordova.InAppBrowser.open(target, '_blank', 'location=yes,enableviewportscale=yes')
                         }else{

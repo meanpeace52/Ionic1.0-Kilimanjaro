@@ -252,12 +252,30 @@ ion-item.small-item{
 .food-show .intro-box .speciality, .food-show .intro-box .time{
     font-size: 13px;
 }
+.food-show .intro-box .del-pk {
+    margin-top: 5px;
+    background: #33cd5f;
+    margin: 11px -5px -20px;
+    color: #fff;
+}
 .food-show .intro-box {
     background: #fff;
     margin-left: 15px;
     margin-right: 15px;
     margin-top: -40px;
     padding: 20px 5px;
+}
+.t-n-c-para span{
+    text-decoration:underline;
+}
+.t-n-c-para .thank-you {
+    display: inline-block;
+    background: #0ADCE6;
+    padding: 6px 30px;
+    font-size: 15px;
+    border-radius: 6px;
+    margin-top: 10px;
+    color: #fff;
 }
 .food-show.service-modal .intro-box{
     margin:0px;

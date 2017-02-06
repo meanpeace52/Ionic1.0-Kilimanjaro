@@ -15,8 +15,21 @@
         </div>
         <div class="intro-box">
             <h2>{{shop.name}}</h2>
-            <div class="speciality text-center">{{shop.speciality}} - $</div>
-            <div class="time text-center">{{shop.address}}</div>
+            <div class="speciality text-center">{{shop.speciality}} - {{shop.priceType}}</div>
+            <div class="time text-center">
+                {{shop.address}}
+            </div>
+            <div class="del-pk text-center" ng-if="shop.types">
+                <div ng-if="shop.types.delivery && shop.types.pickup">
+                    Offers Delivery & Pickup
+                </div>
+                 <div ng-if="shop.types.delivery && !shop.types.pickup">
+                    Offers Only Delivery
+                </div>
+                <div ng-if="!shop.types.delivery && shop.types.pickup">
+                    Offers Only Pickup
+                </div>
+            </div>
         </div>
         <div class="text-center working-time">
             {{shop.workingTime}}

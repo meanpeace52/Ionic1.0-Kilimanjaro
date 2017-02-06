@@ -12,8 +12,11 @@
         
         <div class="orders-list">
             <div class="card" ng-repeat='order in orders| orderBy : order.createdAt : true' ng-click='showOrder(order)'>
-                <div class="item item-divider">
+                <div class="item item-divider" ng-if='!order.timestamp'>
                     ID: {{order.$id}}
+                </div>
+                 <div class="item item-divider" ng-if='order.timestamp'>
+                    ID: {{order.timestamp}}
                 </div>
                 <div class="item item-text-wrap">
                     <b>{{order.badge}}</b> items<br/>

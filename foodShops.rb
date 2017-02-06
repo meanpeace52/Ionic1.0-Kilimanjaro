@@ -13,21 +13,22 @@ def create_shop()
   shop ={
     address: Faker::Address.street_address,
     banner: random_image(),
-    deliveryTime: '44-54 min',
+    types: {delivery: [true, false].sample, pickup: [true, false].sample},
     speciality: Faker::Address.country,
     name: Faker::Company.name,
     workingTime: "6:00pm - 12:00am",
-    email: Faker::Internet.email
+    email: Faker::Internet.email,
+    priceType: ['$'].cycle([1,2,3].sample).to_a.join('')
   }
   items = []
-  10.times do |item|
+  8.times do |item|
     items << {name: Faker::Food.spice, price: Faker::Commerce.price, description: Faker::Lorem.sentence(10, false, 40), imgUrl: random_image(), inStock: true}
   end
   shop[:items] = items
   return shop
 end
 
-30.times do |shop|
+10.times do |shop|
   shop = create_shop()
   firebase.push("foodShops", shop)
 end
