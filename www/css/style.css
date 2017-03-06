@@ -8,6 +8,25 @@
     text-decoration: none;
     font-size: 18px;
 }
+.bar-footer.bar-small{
+    height: 20px;
+}
+.location-form-header .descr {
+    width: 270px;
+    margin: 16px auto;
+}
+.location-form-header .seeAfr{
+    display: inline-block;
+    border: 1px solid;
+    padding: 4px 12px;
+    border-radius: 8px;
+    margin-bottom: 9px;
+}
+.bar.bar-small .title {
+    height: 20px;
+    line-height: 21px;
+    font-size: 12px;
+}
 .tab-item.disabled, .tab-item[disabled]{
     display: none;
 }
@@ -86,11 +105,18 @@
     font-family: AdventProSemiBold;
     src: url('../fonts/AdventPro/AdventPro-SemiBold.ttf') format('truetype');
 }
+@font-face {
+    font-family: AdventProBold;
+    src: url('../fonts/AdventPro/AdventPro-Bold.ttf') format('truetype');
+}
 .adventProMedium{
     font-family: AdventProMedium;
 }
 .adventProsemiBold, .bar.bar-light .title{
     font-family: AdventProSemiBold;
+}
+.adventProBold{
+    font-family: AdventProBold;
 }
 .landing-description{
     font-size: 18px;

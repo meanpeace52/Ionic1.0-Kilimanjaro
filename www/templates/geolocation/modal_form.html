@@ -1,0 +1,27 @@
+<ion-modal-view class="food-show service-modal">
+    <ion-header-bar>  
+        <div class="buttons"  ng-if='currentUserLocation'>
+            <button class="button" ng-click="hideCustomLocationForm()">Close</button>
+        </div>              
+    </ion-header-bar>    
+    <ion-content class='has-header'>  
+        <div class='location-form-header text-center'>
+            <h1 class='adventProBold'>Kilimanjaro</h1>
+            <div class='seeAfr'>
+                See Africa Around You
+            </div>
+            <div class="descr">
+                To see what's around you, please provide your location by sharing your address, a landmark (a hospital/school) in your neighborhood, or a major street near you.
+            </div>
+        </div>        
+        <div class="list">    
+            <label class="item item-input">
+                <input type="text" placeholder="Please type your location here.." ng-model='newLocation' ion-autocomplete readonly="readonly" class="ion-autocomplete" autocomplete="off" max-selected-items="1" items-method="getAutoCompleteLocations(query)" select-items-label='Choose your location..' selected-items-label='Selected location' item-view-value-key="formatted_address">
+            </label>
+
+            <div class="button-bar">
+                <a class="button button-positive" ng-disabled="!newLocation" ng-click='setNewLocation(newLocation)'>NEXT</a>                
+            </div>
+        </div>
+    </ion-content>
+</ion-modal-view>

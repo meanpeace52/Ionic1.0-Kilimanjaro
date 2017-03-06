@@ -37,6 +37,29 @@ angular.module('app.services', [])
                 return $firebaseAuth();
             }
         ])
+        
+        .factory('GoogleService', ['$http', '$q', function($http, $q){
+              return{
+                  locationFromLatLong: function(lat, lng){
+                    var defer = $q.defer();
+                        var url="http://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lng+'&sensor=true';                        
+                        var req = {
+                            method: 'GET',
+                            url: url,
+                            headers: {
+                                'Content-Type': 'application/json',
+                            }
+                        }
+
+                        $http(req).then(function(success) {
+                            defer.resolve(success)
+                        }, function(err) {
+                            defer.reject(err)
+                        });
+                        return defer.promise;
+                  }
+              } 
+        }])
 
         .factory('EmailNotification', ['$http', '$q', function($http, $q) {
                 var from = 'noreply@kilimanjaroTest.com';

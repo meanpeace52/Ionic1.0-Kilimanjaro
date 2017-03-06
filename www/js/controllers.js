@@ -1,7 +1,7 @@
 angular.module('app.controllers', [])
 
-        .controller('kilimanjaroCtrl', ['$rootScope', 'Auth', '$scope', '$state', '$rootScope', '$ionicHistory', '$ionicTabsDelegate', '$timeout',
-            function($rootScope, Auth, $scope, $state, $rootScope, $ionicHistory, $ionicTabsDelegate, $timeout) {
+        .controller('kilimanjaroCtrl', ['$rootScope', 'Auth', '$scope', '$state', '$rootScope', '$ionicHistory', '$ionicTabsDelegate', '$timeout', '$ionicModal', '$http',
+            function($rootScope, Auth, $scope, $state, $rootScope, $ionicHistory, $ionicTabsDelegate, $timeout, $ionicModal, $http) {
                 Auth.$onAuthStateChanged(function(user) {
                     if (user) {
                         $rootScope.currentUser = user;
@@ -23,6 +23,43 @@ angular.module('app.controllers', [])
                     }, function(error) {
 
                     });
+                }
+                
+                $rootScope.setNewLocation = function(newLocation){
+                    var lat = newLocation.geometry.location.lat;
+                    var lng = newLocation.geometry.location.lng;                      
+                    $rootScope.currentUserLocation = {lat: lat, lng: lng, location: newLocation.formatted_address}
+                    $rootScope.hideCustomLocationForm();
+                    $rootScope.$broadcast('userLocationChanged');
+                }
+                
+                $rootScope.getAutoCompleteLocations = function(val) {
+                    if(!val){
+                        return[];
+                    }
+                    return $http.get('http://maps.googleapis.com/maps/api/geocode/json', {
+                      params: {
+                        address: val,
+                        sensor: false
+                      }
+                    }).then(function(response){                        
+                      return response.data.results.map(function(item){
+                        return item;
+                      });
+                    });
+                  };
+                
+                $rootScope.showCustomLocationForm = function(){
+                     $ionicModal.fromTemplateUrl('templates/geolocation/modal_form.html', {
+                        scope: $rootScope,
+                        animation: 'slide-in-up'
+                    }).then(function(modal) {
+                        modal.show();
+                        $scope.modal = modal;
+                    });
+                    $rootScope.hideCustomLocationForm = function(){
+                       $scope.modal.hide();
+                    }
                 }
 
             }])
@@ -73,7 +110,7 @@ angular.module('app.controllers', [])
                         });
 
                 $scope.showOrder = function(order) {
-                    $scope.order = order;                    
+                    $scope.order = order;
                     $ionicModal.fromTemplateUrl('templates/billing/modal_order.html', {
                         scope: $scope,
                         animation: 'slide-in-up'
@@ -199,7 +236,7 @@ angular.module('app.controllers', [])
                                 userName = $rootScope.currentUser.displayName;
                             }
                             params.subject = "Kilimanjaro: new order placed by " + userName;
-                            var description = userName + " placed an order with ID(<b>"+cart.timestamp+"</b>) at your shop <b>" + shop.name + "</b>";
+                            var description = userName + " placed an order with ID(<b>" + cart.timestamp + "</b>) at your shop <b>" + shop.name + "</b>";
                             description += "<h2>Order Details</h2><hr/>";
                             description += "<ul>";
                             var total = 0;
@@ -403,8 +440,47 @@ angular.module('app.controllers', [])
 
             }])
 
-        .controller('CategoriesCtrl', ['$scope', '$state',
-            function($scope, $state) {
+        .controller('CategoriesCtrl', ['$scope', '$state', '$cordovaGeolocation', 'sharedUtils', '$ionicLoading', 'GoogleService', '$rootScope',
+            function($scope, $state, $cordovaGeolocation, sharedUtils, $ionicLoading, GoogleService, $rootScope) {
+                //sharedUtils.showLoading();
+                var posOptions = {enableHighAccuracy: true};
+                if (ionic.Platform.isAndroid()) {
+                    posOptions.timeout = 10000;
+                }
+                function getUserLocation() {
+                    sharedUtils.showLoading();
+                    $cordovaGeolocation
+                            .getCurrentPosition(posOptions)
+                            .then(function(position) {
+                                $scope.userGeolocationResolved = true;
+                                sharedUtils.hideLoading();
+                                var lat = position.coords.latitude;
+                                var lng = position.coords.longitude;
+                                $rootScope.currentUserLocation = {lat: lat, lng: lng}
+                                getUserLocationString(lat, lng);                                
+                            }, function(err) {
+                                $scope.userGeolocationResolved = true;
+                                sharedUtils.hideLoading();
+                                $ionicLoading.show({
+                                    template: 'Not able to get your location at this moment.',
+                                    duration: 2000
+                                });                                
+                                $rootScope.showCustomLocationForm();                                
+                            });
+                }
+                function getUserLocationString(lat, lng) {
+                    GoogleService.locationFromLatLong(lat, lng).then(function(response) {
+                        if (response.status == 200 && response.data.results.length) {
+                            $rootScope.currentUserLocation.location = response.data.results[0].formatted_address;
+                        }
+                    }, function(error) {
+                        $rootScope.currentUserLocation.location = 'current location'
+                    });
+                }
+                if(!$rootScope.currentUserLocation){
+                   getUserLocation();
+                }                
+
 
                 $scope.openSpecificCategory = function(category) {
                     $state.go("tabsController." + category);
