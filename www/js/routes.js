@@ -25,7 +25,7 @@ angular.module('app.routes', [])
                             }
                         }
                     })
-                    
+
                     .state('tabsController.billingIndex', {
                         url: '/billing/index',
                         views: {
@@ -139,12 +139,15 @@ angular.module('app.routes', [])
                         views: {
                             'tab1': {
                                 templateUrl: 'templates/categories/foodShops/index.html',
-                                controller: 'foodShopCtrl'
+                                controller: 'IndexCtrl'
                             }
                         }, resolve: {
                             "currentAuth": ["Auth", function(Auth) {
                                     return Auth.$requireSignIn();
-                                }]
+                                }],
+                            categoryDependentVariables: function() {
+                                return {ref: 'foodShops', geoLocationSeperater: 'FOODSHOP---', childState: 'tabsController.foodShop'};
+                            }
                         }
 
                     })
@@ -153,12 +156,15 @@ angular.module('app.routes', [])
                         views: {
                             'tab1': {
                                 templateUrl: 'templates/categories/clothingShops/index.html',
-                                controller: 'clothingShopsCtrl'
+                                controller: 'IndexCtrl'
                             }
                         }, resolve: {
                             "currentAuth": ["Auth", function(Auth) {
                                     return Auth.$requireSignIn();
-                                }]
+                                }],
+                            categoryDependentVariables: function() {
+                                return {ref: 'clothingShops', geoLocationSeperater: 'CLOTHINGSHOP---', childState: 'tabsController.clothingShop'};
+                            }
                         }
 
                     })
@@ -197,12 +203,15 @@ angular.module('app.routes', [])
                         views: {
                             'tab1': {
                                 templateUrl: 'templates/categories/events/index.html',
-                                controller: 'EventsCtrl'
+                                controller: 'IndexCtrl'
                             }
                         }, resolve: {
                             "currentAuth": ["Auth", function(Auth) {
                                     return Auth.$requireSignIn();
-                                }]
+                                }],
+                            categoryDependentVariables: function() {
+                                return {ref: 'events', geoLocationSeperater: 'EVENT---', childState: 'tabsController.event'};
+                            }
                         }
 
                     })
@@ -242,24 +251,18 @@ angular.module('app.routes', [])
                         views: {
                             'tab1': {
                                 templateUrl: 'templates/categories/general/index.html',
-                                controller: 'GeneralCatCtrl'
+                                controller: 'IndexCtrl'
                             }
                         }, resolve: {
                             "currentAuth": ["Auth", function(Auth) {
                                     return Auth.$requireSignIn();
-                                }]
-                        }
-
-                    })
-                    .state('tabsController.kilimanjaro4', {
-                        url: '/food',
-                        views: {
-                            'tab1': {
-                                templateUrl: 'templates/kilimanjaro4.html',
-                                controller: 'kilimanjaro4Ctrl'
+                                }],
+                             categoryDependentVariables: function() {
+                                return {ref: 'general', geoLocationSeperater: 'GENERAL---', childState: 'tabsController.generalItem'};
                             }
                         }
-                    })
+
+                    })                
 
 
             $urlRouterProvider.otherwise('/home/landing')

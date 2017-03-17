@@ -18,6 +18,11 @@
             <label class="item item-input">
                 <input type="text" placeholder="Please type your location here.." ng-model='newLocation' ion-autocomplete readonly="readonly" class="ion-autocomplete" autocomplete="off" max-selected-items="1" items-method="getAutoCompleteLocations(query)" select-items-label='Choose your location..' selected-items-label='Selected location' item-view-value-key="formatted_address">
             </label>
+<!--            <div class="item range">
+                <i class="icon ion-volume-low"></i>
+                <input type="range" name="volume">
+                <i class="icon ion-volume-high"></i>
+            </div>-->
 
             <div class="button-bar">
                 <a class="button button-positive" ng-disabled="!newLocation" ng-click='setNewLocation(newLocation)'>NEXT</a>                

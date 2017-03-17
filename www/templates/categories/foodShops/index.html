@@ -4,23 +4,24 @@
         </button>
     </ion-nav-buttons>
     <ion-content padding="true" class="has-header">            
-        <div class="food-tile" ng-repeat="shop in data.items" ng-click="openShop(shop)">
+        <div class="food-tile" ng-repeat="shop in data.items" ng-click="childClick(shop)">
             <div class="image-area" style="background-image: url({{shop.banner}})">
 
             </div>
             <div class="row">
-                <div class="col col-67 name">
+                <div class="col col-100 name">
                     {{shop.name}}
-                </div>
-                <div class="col time text-right">
-                    {{shop.deliveryTime}}
-                </div>           
+                </div>                         
             </div>
             <div class="row">
                 <div class="col col-100 speciality">
                     {{shop.speciality}} {{shop.priceType}}
                 </div>
             </div>
+        </div>           
+        <div class="no-content-available text-center" ng-if="!data.items.length && !data.loading">
+            <h2><i class="ion-android-sad"></i></h2>
+            <h2>Content not available</h2>
         </div>
     </ion-content>
     <div ng-include='"templates/geolocation/location_footer.html"'></div>
