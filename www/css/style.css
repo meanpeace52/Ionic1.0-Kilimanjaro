@@ -37,6 +37,9 @@
 .tab-item.disabled, .tab-item[disabled]{
     display: none;
 }
+.platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) > .nav-bar-block {
+    margin-top: 0px!important;
+}
 /*.platform-ios .modal{
     bottom:49px;
     min-height: initial;
