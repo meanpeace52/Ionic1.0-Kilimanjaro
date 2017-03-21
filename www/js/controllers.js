@@ -523,7 +523,7 @@ angular.module('app.controllers', [])
                 function resizeScrollDelegate() {
                     $timeout(function() {
                         $ionicScrollDelegate.resize()
-                    }, 200)
+                    }, 500)
                 }
                 function getData(catKeys) {
                     var busy = false;
@@ -536,8 +536,7 @@ angular.module('app.controllers', [])
                             resizeScrollDelegate();
                             return;
                         }                        
-                        var matchId = catKeys.splice(0, 1)[0];                        
-                        console.log(matchId)
+                        var matchId = catKeys.splice(0, 1)[0];                                                
                         var ref = firebase.database().ref(categoryDependentVariables.ref).child(matchId);
                         var item = $firebaseObject(ref);
                         item.$loaded()
@@ -552,7 +551,7 @@ angular.module('app.controllers', [])
                                     sharedUtils.hideLoading();
                                     busy=false;
                                 });
-                    }, 100);
+                    }, 500);
                 }
                 var locWatcher;
                 $scope.$on('$ionicView.enter', function() {
