@@ -515,11 +515,16 @@ angular.module('app.controllers', [])
 
             }])
 
-        .controller('IndexCtrl', ["$scope", '$firebaseObject', '$state', 'sharedUtils', '$rootScope', 'categoryDependentVariables', '$timeout',
-            function($scope, $firebaseObject, $state, sharedUtils, $rootScope, categoryDependentVariables, $timeout) {
+        .controller('IndexCtrl', ["$scope", '$firebaseObject', '$state', 'sharedUtils', '$rootScope', 'categoryDependentVariables', '$timeout', '$ionicScrollDelegate',
+            function($scope, $firebaseObject, $state, sharedUtils, $rootScope, categoryDependentVariables, $timeout, $ionicScrollDelegate) {
                 $scope.data = {};
                 $scope.data.items = [];
                 $scope.data.loading = true;
+                function resizeScrollDelegate() {
+                    $timeout(function() {
+                        $ionicScrollDelegate.resize()
+                    }, 200)
+                }
                 function getData(matchId) {
                     var ref = firebase.database().ref(categoryDependentVariables.ref).child(matchId);
                     var item = $firebaseObject(ref);
@@ -528,9 +533,11 @@ angular.module('app.controllers', [])
                                 $scope.data.items.push(item);
                                 $scope.data.loading = false;
                                 sharedUtils.hideLoading();
+                                resizeScrollDelegate();
                             })
                             .catch(function(err) {
                                 $scope.data.loading = false;
+                                resizeScrollDelegate();
                                 sharedUtils.hideLoading();
                             });
                 }
