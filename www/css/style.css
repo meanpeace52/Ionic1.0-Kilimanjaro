@@ -3,6 +3,9 @@
     font-size: 23px;
     margin-bottom: 4px;
 }
+ion-content.has-header.forced-scroll{
+    overflow-y: scroll!important;
+}
 .no-content-available.text-center h2 {
     color: #CCCCCC;    
     font-weight: bold;

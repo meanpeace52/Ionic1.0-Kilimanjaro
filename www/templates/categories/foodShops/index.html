@@ -3,7 +3,7 @@
         <button class="button button-icon icon ion-ios-search-strong" apply-search-filter filter="name" data="data">
         </button>
     </ion-nav-buttons>
-    <ion-content padding="true" class="has-header">            
+    <ion-content padding="true" class="has-header forced-scroll">            
         <div class="food-tile" ng-repeat="shop in data.items" ng-click="childClick(shop)">
             <div class="image-area" style="background-image: url({{shop.banner}})">
 

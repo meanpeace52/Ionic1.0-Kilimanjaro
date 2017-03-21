@@ -552,7 +552,7 @@ angular.module('app.controllers', [])
                                     sharedUtils.hideLoading();
                                     busy=false;
                                 });
-                    }, 500);
+                    }, 200);
                 }
                 var locWatcher;
                 $scope.$on('$ionicView.enter', function() {
