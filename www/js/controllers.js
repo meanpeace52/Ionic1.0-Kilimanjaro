@@ -525,21 +525,34 @@ angular.module('app.controllers', [])
                         $ionicScrollDelegate.resize()
                     }, 200)
                 }
-                function getData(matchId) {
-                    var ref = firebase.database().ref(categoryDependentVariables.ref).child(matchId);
-                    var item = $firebaseObject(ref);
-                    item.$loaded()
-                            .then(function() {
-                                $scope.data.items.push(item);
-                                $scope.data.loading = false;
-                                sharedUtils.hideLoading();
-                                resizeScrollDelegate();
-                            })
-                            .catch(function(err) {
-                                $scope.data.loading = false;
-                                resizeScrollDelegate();
-                                sharedUtils.hideLoading();
-                            });
+                function getData(catKeys) {
+                    var busy = false;
+                    var paginateFn = setInterval(function() {
+                        if (busy) {
+                            return;
+                        }
+                        if(!catKeys.length){
+                            clearInterval(paginateFn);
+                            resizeScrollDelegate();
+                            return;
+                        }                        
+                        var matchId = catKeys.splice(0, 1)[0];                        
+                        console.log(matchId)
+                        var ref = firebase.database().ref(categoryDependentVariables.ref).child(matchId);
+                        var item = $firebaseObject(ref);
+                        item.$loaded()
+                                .then(function() {
+                                    $scope.data.items.push(item);
+                                    $scope.data.loading = false;
+                                    sharedUtils.hideLoading();                                    
+                                    busy=false;
+                                })
+                                .catch(function(err) {
+                                    $scope.data.loading = false;                                    
+                                    sharedUtils.hideLoading();
+                                    busy=false;
+                                });
+                    }, 100);
                 }
                 var locWatcher;
                 $scope.$on('$ionicView.enter', function() {
@@ -559,9 +572,9 @@ angular.module('app.controllers', [])
                                     }
                                 });
                                 if (catKeys.length) {
-                                    angular.forEach(catKeys, function(key) {
-                                        getData(key);
-                                    });
+                                    //angular.forEach(catKeys, function(key) {
+                                    getData(catKeys);
+                                    //});
                                 } else {
                                     sharedUtils.hideLoading();
                                     $scope.data.loading = false;

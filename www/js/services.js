@@ -1,7 +1,7 @@
 angular.module('app.services', [])
 
 
-        .factory('sharedUtils', ['$ionicLoading', '$ionicPopup', '$timeout', function($ionicLoading, $ionicPopup, $timeout) {
+        .factory('sharedUtils', ['$ionicLoading', '$ionicPopup', function($ionicLoading, $ionicPopup) {
 
 
                 var functionObj = {};
@@ -16,9 +16,7 @@ angular.module('app.services', [])
                     });
                 };
                 functionObj.hideLoading = function() {
-                    $timeout(function(){
-                        $ionicLoading.hide();
-                    });                    
+                    $ionicLoading.hide();
                 };
 
 
