@@ -11,7 +11,7 @@ angular.module('app.controllers', [])
                 var geoFire = new GeoFire(firebaseRef);
                 $rootScope.geoQuery = geoFire.query({
                     center: [0, 0],
-                    radius: 5
+                    radius: 80.4672
                 });
                 var boundKeys = [];
                 $rootScope.locationBoundKeys = [];
