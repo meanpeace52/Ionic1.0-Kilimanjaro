@@ -520,6 +520,7 @@ angular.module('app.controllers', [])
                 $scope.data = {};
                 $scope.data.items = [];
                 $scope.data.loading = true;
+                console.log($ionicScrollDelegate)
                 function resizeScrollDelegate() {
                     $timeout(function() {
                         $ionicScrollDelegate.resize()
