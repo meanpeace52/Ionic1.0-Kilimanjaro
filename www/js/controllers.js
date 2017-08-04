@@ -205,28 +205,40 @@ angular.module('app.controllers', [])
                 }
 
                 function chargeCard(stripeData, firebaseData) {
-
                     //cardToken stripeData.id
                     //orderId firebaseData.key
-                    var param = {};
-                    var total = 0;
-                    angular.forEach($rootScope.cart.shops, function(shop) {
-                        if (shop.cartItems && Object.keys(shop.cartItems).length > 0) {
-                            var keys = Object.keys(shop.cartItems);
-                            angular.forEach(keys, function(key) {
-                                var item = shop.cartItems[key];
-                                total = total + (item.price * item.quantity);
-                            });
-                        }
-                    });
-                    param.amount = total * 100;
-                    param.token = stripeData.id;
+
+                    var params = {};
+
+                    params.token = stripeData.id;
+                    params.orderId = firebaseData.key;
                     var userName = $rootScope.currentUser.email;
                     if ($rootScope.currentUser.displayName) {
                         userName = $rootScope.currentUser.displayName;
                     }
-                    param.description = "Charging " + userName + " for Order ID: " + firebaseData.key;
-                    Stripe.chargeCard(param).then(function(response) {
+                    params.description = "Charging " + userName + " for Order ID: " + firebaseData.key;
+                    params.shopData = [];
+                    params.total = 0;
+
+                    angular.forEach($rootScope.cart.shops, function(shop) {
+                        var data = {};
+                        var subTotal = 0;
+
+                        if (shop.cartItems && Object.keys(shop.cartItems).length > 0) {
+                            var keys = Object.keys(shop.cartItems);
+                            angular.forEach(keys, function(key) {
+                                var item = shop.cartItems[key];
+                                subTotal = subTotal + (item.price * item.quantity);
+                            });
+                        }
+
+                        data.amount = subTotal * 100;
+                        data.stripeAccountId = shop.stripeAccountId;
+                        params.total += data.amount;
+                        params.shopData.push(data);
+                    });
+
+                    Stripe.chargeCard(params).then(function(response) {
                         finalizeOrder();
                     }, function() {
                         $ionicLoading.show({
@@ -536,19 +548,19 @@ angular.module('app.controllers', [])
                             clearInterval(paginateFn);
                             resizeScrollDelegate();
                             return;
-                        }                        
-                        var matchId = catKeys.splice(0, 1)[0];                                                
+                        }
+                        var matchId = catKeys.splice(0, 1)[0];
                         var ref = firebase.database().ref(categoryDependentVariables.ref).child(matchId);
                         var item = $firebaseObject(ref);
                         item.$loaded()
                                 .then(function() {
                                     $scope.data.items.push(item);
                                     $scope.data.loading = false;
-                                    sharedUtils.hideLoading();                                    
+                                    sharedUtils.hideLoading();
                                     busy=false;
                                 })
                                 .catch(function(err) {
-                                    $scope.data.loading = false;                                    
+                                    $scope.data.loading = false;
                                     sharedUtils.hideLoading();
                                     busy=false;
                                 });
@@ -707,7 +719,7 @@ angular.module('app.controllers', [])
                 $scope.addItemToCart = function(item) {
                     var shopPresent = $filter('filter')($rootScope.cart.shops, {$id: $scope.shop.$id}).length;
                     if (!shopPresent) {
-                        $scope.fakeShop = {$id: $scope.shop.$id, name: $scope.shop.name, email: $scope.shop.email};
+                        $scope.fakeShop = {$id: $scope.shop.$id, name: $scope.shop.name, email: $scope.shop.email, stripeAccountId: $scope.shop.stripeAccountId};
                         delete $scope.fakeShop.items;
                         $rootScope.cart.shops.push($scope.fakeShop);
                     }
@@ -768,7 +780,7 @@ angular.module('app.controllers', [])
                 $scope.addItemToCart = function(item) {
                     var shopPresent = $filter('filter')($rootScope.cart.shops, {$id: $scope.shop.$id}).length;
                     if (!shopPresent) {
-                        $scope.fakeShop = {$id: $scope.shop.$id, name: $scope.shop.name, email: $scope.shop.email};
+                        $scope.fakeShop = {$id: $scope.shop.$id, name: $scope.shop.name, email: $scope.shop.email, stripeAccountId: $scope.shop.stripeAccountId};
                         delete $scope.fakeShop.items;
                         $rootScope.cart.shops.push($scope.fakeShop);
                     }
@@ -799,4 +811,4 @@ angular.module('app.controllers', [])
 
 
             }]);
- 
+

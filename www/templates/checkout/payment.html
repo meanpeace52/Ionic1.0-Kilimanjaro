@@ -1,14 +1,14 @@
 <ion-view title="Payment Details">
-    <ion-content padding="true" class="has-header">    
+    <ion-content padding="true" class="has-header">
         <form stripe-form="stripeCallback">
             <div class="">
                 <div class="row flush-padding">
                     <div class="col">
                         <label class="item item-input item-stacked-label">
                             <span class="input-label">Card Number</span>
-                            <input type="text" placeholder="Card Number" card-validate="credit card" ng-model="number"  ng-required="true">                            
+                            <input type="text" placeholder="Card Number" card-validate="credit card" ng-model="number"  ng-required="true">
                         </label>
-                    </div>              
+                    </div>
                 </div>
                 <div class="row flush-padding">
                     <div class="col">
@@ -16,7 +16,7 @@
                             <span class="input-label">Name on card</span>
                             <input type="text" placeholder="Name on card" ng-model="name">
                         </label>
-                    </div>              
+                    </div>
                 </div>
                 <div class="row flush-padding">
                     <div class="col">
@@ -32,12 +32,12 @@
                         </label>
                     </div>
                 </div>
-            </div> 
+            </div>
             <div class="row flush-padding">
                 <div class="col">
                     <button type="submit" class="button button-balanced button-block">Place your order now</button>
                 </div>
-            </div>            
+            </div>
         </form>
     </ion-content>
 </ion-view>
