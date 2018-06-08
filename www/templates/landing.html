@@ -4,7 +4,7 @@
           <p>Kilimanjaro is the highest mountain in Africa, right?</p>
           <p>Okay, if you were to stand at the very peak of the mountain you should see a lot of Africa, right?</p>
           <p>This is the purpose of this app: to help you see a lot of African things---food, shops, events, and more---around you, right here in the United States.</p>
-          <p>Welcome to Kilimanjaro. Sign in, or check out the Africa around you by registering.</p>
+          <p>Welcome to Kilimanjaro.</p>
       </div>
     <div  style="text-align:center;" class="show-list-numbers-and-dots">
         <img src="img/africa.jpg" height="72" ng-click='promoEasterEgg()'>
@@ -12,14 +12,14 @@
     <div id="kilimanjaro2-button-bar1" class="button-bar" ng-if="!currentUser">
       <a ui-sref="tabsController.login" id="kilimanjaro2-button5" class="button button-balanced  button-block">Sign in </a>
       <a ui-sref="tabsController.signup" id="kilimanjaro2-button7" class="button button-stable  button-block">Sign up</a>
-    </div> 
+    </div>
       <div class="mail-merchant-link text-center adventProsemiBold" ng-if="!currentUser">
           <a href="mailto:acouplethings70@gmail.com">
               Want to list your shop, event, or service?
           </a>
       </div>
       <div id="kilimanjaro2-button-bar1" class="button-bar" ng-if="currentUser">
-      <a ui-sref="tabsController.categories"  class="button button-balanced  button-block">Explore what's around you </a>      
-    </div> 
+      <a ui-sref="tabsController.categories"  class="button button-balanced  button-block">Explore what's around you </a>
+    </div>
   </ion-content>
 </ion-view>
